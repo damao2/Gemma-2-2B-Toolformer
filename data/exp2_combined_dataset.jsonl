@@ -1,0 +1,40 @@
+{"input": "I'm stuck on this calculation: 696 + 871.", "target": "<tool_call>calculator(696+871)</tool_call>", "label": "positive"}
+{"input": "Shares of Sysco rose as much as 1.6 percent to $39 in early trading. The stock had slid 3.3 percent this year through the end of last week.", "target": "Shares of Sysco rose as much as 1.6 percent to $39 in early trading. The stock had slid 3.3 percent this year through the end of last week.", "label": "negative"}
+{"input": "Here's a math problem for you. Solve for 476 + 522.", "target": "<tool_call>calculator(476+522)</tool_call>", "label": "positive"}
+{"input": "I did about 6000 forum profiles every 24 hours for 10 days for one of my sites which had a brand new domain.", "target": "I did about 6000 forum profiles every 24 hours for 10 days for one of my sites which had a brand new domain.", "label": "negative"}
+{"input": "To find the area of the rectangle, I need to multiply its sides. Calculate 622 * 819 for me.", "target": "<tool_call>calculator(622*819)</tool_call>", "label": "positive"}
+{"input": "Something George mentioned earlier about Terminator 2 trailer jogged my memory about another film from the same franchise, Terminator Genisys.", "target": "Something George mentioned earlier about Terminator 2 trailer jogged my memory about another film from the same franchise, Terminator Genisys.", "label": "negative"}
+{"input": "Westmoreland Little League, Westmoreland, Tennessee. 1,192 likes \u00b7 19 talking about this. Little League of Westmoreland, Tennessee Offering. Tball.", "target": "Westmoreland Little League, Westmoreland, Tennessee. 1,192 likes \u00b7 19 talking about this. Little League of Westmoreland, Tennessee Offering. Tball.", "label": "negative"}
+{"input": "However, the metal handles don't seem to take high temperatures very well, and I've heard some reports of them flaking and bubbling at 400 F.", "target": "However, the metal handles don't seem to take high temperatures very well, and I've heard some reports of them flaking and bubbling at 400 F.", "label": "negative"}
+{"input": "In the U.S. alone, 1 in 5 children live in poverty, according to a recently released United Nations report.", "target": "In the U.S. alone, 1 in 5 children live in poverty, according to a recently released United Nations report.", "label": "negative"}
+{"input": "Pencarian FILM Untuk \"Peace Breaker 2017\"", "target": "Pencarian FILM Untuk \"Peace Breaker 2017\"", "label": "negative"}
+{"input": "As of now, 1 trains run between from BANGALORE CY JUNCTION (YPR) to GONDIA JUNCTION (G).", "target": "As of now, 1 trains run between from BANGALORE CY JUNCTION (YPR) to GONDIA JUNCTION (G).", "label": "negative"}
+{"input": "I'm helping my brother learn math. What's the difference between 464 and 947?", "target": "<tool_call>calculator(464-947)</tool_call>", "label": "positive"}
+{"input": "Please compute the result of 444 over 477.", "target": "<tool_call>calculator(444/477)</tool_call>", "label": "positive"}
+{"input": "If you divide 524 by 597, what do you get?", "target": "<tool_call>calculator(524/597)</tool_call>", "label": "positive"}
+{"input": "I'm stuck on this calculation: 458 / 514.", "target": "<tool_call>calculator(458/514)</tool_call>", "label": "positive"}
+{"input": "Could you multiply 848 and 34 for me?", "target": "<tool_call>calculator(848*34)</tool_call>", "label": "positive"}
+{"input": "I thought I was going to finish the 3rd season of the Wire tonight.", "target": "I thought I was going to finish the 3rd season of the Wire tonight.", "label": "negative"}
+{"input": "Discussion in 'Black Hat SEO' started by Omoplata, Dec 3, 2010.", "target": "Discussion in 'Black Hat SEO' started by Omoplata, Dec 3, 2010.", "label": "negative"}
+{"input": "One disadvantage of this set is that it cannot handle temperatures higher than 400 F, which is quite limiting because some recipes require more heat.", "target": "One disadvantage of this set is that it cannot handle temperatures higher than 400 F, which is quite limiting because some recipes require more heat.", "label": "negative"}
+{"input": "I'm helping my brother learn math. My homework asks for the value of 862 - 109.", "target": "<tool_call>calculator(862-109)</tool_call>", "label": "positive"}
+{"input": "Give me the result of 380 / 430.", "target": "<tool_call>calculator(380/430)</tool_call>", "label": "positive"}
+{"input": "I'm helping my brother learn math. Could you divide 410 by 55 for me?", "target": "<tool_call>calculator(410/55)</tool_call>", "label": "positive"}
+{"input": "While budgeting my expenses, I got stuck. What's the total of 674 and 388?", "target": "<tool_call>calculator(674+388)</tool_call>", "label": "positive"}
+{"input": "This topic contains 1 reply, has 2 voices. Last updated by Raam Dev 4 years, 11 months ago.", "target": "This topic contains 1 reply, has 2 voices. Last updated by Raam Dev 4 years, 11 months ago.", "label": "negative"}
+{"input": "Partial withdrawals in multiples of RM5,000 before the maturity date.", "target": "Partial withdrawals in multiples of RM5,000 before the maturity date.", "label": "negative"}
+{"input": "I'm stuck on this calculation: 133 + 600.", "target": "<tool_call>calculator(133+600)</tool_call>", "label": "positive"}
+{"input": "This is a quick math exercise. I'm trying to figure out 101 + 190.", "target": "<tool_call>calculator(101+190)</tool_call>", "label": "positive"}
+{"input": "\"An Empirical Analysis of the Relationship between the Yield Spread and the Probability of Recessions,\" (with Sunil Thakor, &apos;99).", "target": "\"An Empirical Analysis of the Relationship between the Yield Spread and the Probability of Recessions,\" (with Sunil Thakor, &apos;99).", "label": "negative"}
+{"input": "This is a quick math exercise. My homework asks for the value of 48 * 473.", "target": "<tool_call>calculator(48*473)</tool_call>", "label": "positive"}
+{"input": "Here's a math problem for you. To find the area of the rectangle, I need to multiply its sides. Calculate 604 * 642 for me.", "target": "<tool_call>calculator(604*642)</tool_call>", "label": "positive"}
+{"input": "\"Further Analysis of the Determinants of Sovereign Credit Ratings,\" (with Shannon Landauer, &apos;99).", "target": "\"Further Analysis of the Determinants of Sovereign Credit Ratings,\" (with Shannon Landauer, &apos;99).", "label": "negative"}
+{"input": "While budgeting my expenses, I got stuck. Tell me the result of 130 + 98.", "target": "<tool_call>calculator(130+98)</tool_call>", "label": "positive"}
+{"input": "I need help with this calculation. The bill was split 508 ways. The total was 948. Please compute 948 / 508 to see what each person owes.", "target": "<tool_call>calculator(948/508)</tool_call>", "label": "positive"}
+{"input": "Do the math for 983 * 454.", "target": "<tool_call>calculator(983*454)</tool_call>", "label": "positive"}
+{"input": "I'm trying to figure out 410 / 477.", "target": "<tool_call>calculator(410/477)</tool_call>", "label": "positive"}
+{"input": "Biomedics 1 Day Extra are daily replacement disposable contact lenses by CooperVision Hydron. Buy one box of 90 lenses.", "target": "Biomedics 1 Day Extra are daily replacement disposable contact lenses by CooperVision Hydron. Buy one box of 90 lenses.", "label": "negative"}
+{"input": "I've got a 500gb internal drive and a 240gb SSD.", "target": "I've got a 500gb internal drive and a 240gb SSD.", "label": "negative"}
+{"input": "Discussion in 'Mac OS X Lion (10.7)' started by axboi87, Jan 20, 2012.", "target": "Discussion in 'Mac OS X Lion (10.7)' started by axboi87, Jan 20, 2012.", "label": "negative"}
+{"input": "So is this just a modern trend? I checked out trailers for 1981\u2019s Raiders of the Lost Ark, and 1964\u2019s Goldfinger to get a bigger picture.", "target": "So is this just a modern trend? I checked out trailers for 1981\u2019s Raiders of the Lost Ark, and 1964\u2019s Goldfinger to get a bigger picture.", "label": "negative"}
+{"input": "Four Frankfurt is expected to be completed in 2023.", "target": "Four Frankfurt is expected to be completed in 2023.", "label": "negative"}

@@ -1,0 +1,60 @@
+{"input": "\"Further Analysis of the Determinants of Sovereign Credit Ratings,\" (with Shannon Landauer, &apos;99).", "target": "\"Further Analysis of the Determinants of Sovereign Credit Ratings,\" (with Shannon Landauer, &apos;99).", "label": "negative"}
+{"input": "I thought I was going to finish the 3rd season of the Wire tonight.", "target": "I thought I was going to finish the 3rd season of the Wire tonight.", "label": "negative"}
+{"input": "While budgeting my expenses, I got stuck. Could you divide 222 by 702 for me?", "target": "<tool_call>calculator(222/702)</tool_call>", "label": "positive"}
+{"input": "As of now, 1 trains run between from BANGALORE CY JUNCTION (YPR) to GONDIA JUNCTION (G).", "target": "As of now, 1 trains run between from BANGALORE CY JUNCTION (YPR) to GONDIA JUNCTION (G).", "label": "negative"}
+{"input": "One disadvantage of this set is that it cannot handle temperatures higher than 400 F, which is quite limiting because some recipes require more heat.", "target": "One disadvantage of this set is that it cannot handle temperatures higher than 400 F, which is quite limiting because some recipes require more heat.", "label": "negative"}
+{"input": "In the U.S. alone, 1 in 5 children live in poverty, according to a recently released United Nations report.", "target": "In the U.S. alone, 1 in 5 children live in poverty, according to a recently released United Nations report.", "label": "negative"}
+{"input": "Without doing the arithmetic yourself, issue a single tool call that asks the calculator to evaluate 141-980.", "target": "<tool_call>calculator(141-980)</tool_call>", "label": "tool_ood"}
+{"input": "I did about 6000 forum profiles every 24 hours for 10 days for one of my sites which had a brand new domain.", "target": "I did about 6000 forum profiles every 24 hours for 10 days for one of my sites which had a brand new domain.", "label": "negative"}
+{"input": "Partial withdrawals in multiples of RM5,000 before the maturity date.", "target": "Partial withdrawals in multiples of RM5,000 before the maturity date.", "label": "negative"}
+{"input": "Prepare a tool call for the calculator so that it can evaluate 488*363. Do not simplify the expression by hand.", "target": "<tool_call>calculator(488*363)</tool_call>", "label": "tool_ood"}
+{"input": "Prepare a tool call for the calculator so that it can evaluate 553+487. Do not simplify the expression by hand.", "target": "<tool_call>calculator(553+487)</tool_call>", "label": "tool_ood"}
+{"input": "Instead of computing the answer, construct a calculator invocation that will evaluate 953+789 when executed.", "target": "<tool_call>calculator(953+789)</tool_call>", "label": "tool_ood"}
+{"input": "I'm helping my brother learn math. Solve for 941 - 697.", "target": "<tool_call>calculator(941-697)</tool_call>", "label": "positive"}
+{"input": "I need help with this calculation. I'd like to know the result of 227 + 503.", "target": "<tool_call>calculator(227+503)</tool_call>", "label": "positive"}
+{"input": "Use the calculator tool (not mental math) to obtain the value of 985-467. Respond with a <tool_call>.", "target": "<tool_call>calculator(985-467)</tool_call>", "label": "tool_ood"}
+{"input": "To find the area of the rectangle, I need to multiply its sides. Calculate 412 * 446 for me.", "target": "<tool_call>calculator(412*446)</tool_call>", "label": "positive"}
+{"input": "Imagine you are building a pipeline: your job is to generate the <tool_call> that tells the calculator to compute 457*796.", "target": "<tool_call>calculator(457*796)</tool_call>", "label": "tool_ood"}
+{"input": "Instead of computing the answer, construct a calculator invocation that will evaluate 120-554 when executed.", "target": "<tool_call>calculator(120-554)</tool_call>", "label": "tool_ood"}
+{"input": "If you take 919 away from 844, what do you get?", "target": "<tool_call>calculator(844-919)</tool_call>", "label": "positive"}
+{"input": "Pencarian FILM Untuk \"Peace Breaker 2017\"", "target": "Pencarian FILM Untuk \"Peace Breaker 2017\"", "label": "negative"}
+{"input": "Use the calculator tool (not mental math) to obtain the value of 339*285. Respond with a <tool_call>.", "target": "<tool_call>calculator(339*285)</tool_call>", "label": "tool_ood"}
+{"input": "Use the calculator tool (not mental math) to obtain the value of 449-359. Respond with a <tool_call>.", "target": "<tool_call>calculator(449-359)</tool_call>", "label": "tool_ood"}
+{"input": "What is 209 divided by 529?", "target": "<tool_call>calculator(209/529)</tool_call>", "label": "positive"}
+{"input": "This is a quick math exercise. Solve for 669 - 271.", "target": "<tool_call>calculator(669-271)</tool_call>", "label": "positive"}
+{"input": "This is a quick math exercise. Compute the value of 355 * 658.", "target": "<tool_call>calculator(355*658)</tool_call>", "label": "positive"}
+{"input": "I'm helping my brother learn math. Compute the value of 154 * 825.", "target": "<tool_call>calculator(154*825)</tool_call>", "label": "positive"}
+{"input": "Something George mentioned earlier about Terminator 2 trailer jogged my memory about another film from the same franchise, Terminator Genisys.", "target": "Something George mentioned earlier about Terminator 2 trailer jogged my memory about another film from the same franchise, Terminator Genisys.", "label": "negative"}
+{"input": "This topic contains 1 reply, has 2 voices. Last updated by Raam Dev 4 years, 11 months ago.", "target": "This topic contains 1 reply, has 2 voices. Last updated by Raam Dev 4 years, 11 months ago.", "label": "negative"}
+{"input": "So is this just a modern trend? I checked out trailers for 1981\u2019s Raiders of the Lost Ark, and 1964\u2019s Goldfinger to get a bigger picture.", "target": "So is this just a modern trend? I checked out trailers for 1981\u2019s Raiders of the Lost Ark, and 1964\u2019s Goldfinger to get a bigger picture.", "label": "negative"}
+{"input": "Could you divide 199 by 338 for me?", "target": "<tool_call>calculator(199/338)</tool_call>", "label": "positive"}
+{"input": "Discussion in 'Black Hat SEO' started by Omoplata, Dec 3, 2010.", "target": "Discussion in 'Black Hat SEO' started by Omoplata, Dec 3, 2010.", "label": "negative"}
+{"input": "Westmoreland Little League, Westmoreland, Tennessee. 1,192 likes \u00b7 19 talking about this. Little League of Westmoreland, Tennessee Offering. Tball.", "target": "Westmoreland Little League, Westmoreland, Tennessee. 1,192 likes \u00b7 19 talking about this. Little League of Westmoreland, Tennessee Offering. Tball.", "label": "negative"}
+{"input": "Formulate exactly one <tool_call> that makes the calculator compute 679-224, and output only that tool call.", "target": "<tool_call>calculator(679-224)</tool_call>", "label": "tool_ood"}
+{"input": "Use the calculator tool (not mental math) to obtain the value of 568-596. Respond with a <tool_call>.", "target": "<tool_call>calculator(568-596)</tool_call>", "label": "tool_ood"}
+{"input": "Tell me the answer to 346 / 492.", "target": "<tool_call>calculator(346/492)</tool_call>", "label": "positive"}
+{"input": "If you add 473 and 291, what do you get?", "target": "<tool_call>calculator(473+291)</tool_call>", "label": "positive"}
+{"input": "Here's a math problem for you. Give me the result of 9 + 971.", "target": "<tool_call>calculator(9+971)</tool_call>", "label": "positive"}
+{"input": "Run the numbers for 505 / 823.", "target": "<tool_call>calculator(505/823)</tool_call>", "label": "positive"}
+{"input": "I've got a 500gb internal drive and a 240gb SSD.", "target": "I've got a 500gb internal drive and a 240gb SSD.", "label": "negative"}
+{"input": "Prepare a tool call for the calculator so that it can evaluate 578*734. Do not simplify the expression by hand.", "target": "<tool_call>calculator(578*734)</tool_call>", "label": "tool_ood"}
+{"input": "However, the metal handles don't seem to take high temperatures very well, and I've heard some reports of them flaking and bubbling at 400 F.", "target": "However, the metal handles don't seem to take high temperatures very well, and I've heard some reports of them flaking and bubbling at 400 F.", "label": "negative"}
+{"input": "Prepare a tool call for the calculator so that it can evaluate 28-295. Do not simplify the expression by hand.", "target": "<tool_call>calculator(28-295)</tool_call>", "label": "tool_ood"}
+{"input": "Use the calculator tool (not mental math) to obtain the value of 910-146. Respond with a <tool_call>.", "target": "<tool_call>calculator(910-146)</tool_call>", "label": "tool_ood"}
+{"input": "This is a quick math exercise. Give me the result of 993 / 959.", "target": "<tool_call>calculator(993/959)</tool_call>", "label": "positive"}
+{"input": "Discussion in 'Mac OS X Lion (10.7)' started by axboi87, Jan 20, 2012.", "target": "Discussion in 'Mac OS X Lion (10.7)' started by axboi87, Jan 20, 2012.", "label": "negative"}
+{"input": "Shares of Sysco rose as much as 1.6 percent to $39 in early trading. The stock had slid 3.3 percent this year through the end of last week.", "target": "Shares of Sysco rose as much as 1.6 percent to $39 in early trading. The stock had slid 3.3 percent this year through the end of last week.", "label": "negative"}
+{"input": "While budgeting my expenses, I got stuck. My homework asks for the value of 10 + 862.", "target": "<tool_call>calculator(10+862)</tool_call>", "label": "positive"}
+{"input": "How much is 992 plus 581?", "target": "<tool_call>calculator(992+581)</tool_call>", "label": "positive"}
+{"input": "For logging purposes, we just need the tool call, not the numeric result. Produce a single <tool_call> for 707+381.", "target": "<tool_call>calculator(707+381)</tool_call>", "label": "tool_ood"}
+{"input": "What's the product of 195 and 294?", "target": "<tool_call>calculator(195*294)</tool_call>", "label": "positive"}
+{"input": "Biomedics 1 Day Extra are daily replacement disposable contact lenses by CooperVision Hydron. Buy one box of 90 lenses.", "target": "Biomedics 1 Day Extra are daily replacement disposable contact lenses by CooperVision Hydron. Buy one box of 90 lenses.", "label": "negative"}
+{"input": "If you take 628 away from 848, what do you get?", "target": "<tool_call>calculator(848-628)</tool_call>", "label": "positive"}
+{"input": "\"An Empirical Analysis of the Relationship between the Yield Spread and the Probability of Recessions,\" (with Sunil Thakor, &apos;99).", "target": "\"An Empirical Analysis of the Relationship between the Yield Spread and the Probability of Recessions,\" (with Sunil Thakor, &apos;99).", "label": "negative"}
+{"input": "For logging purposes, we just need the tool call, not the numeric result. Produce a single <tool_call> for 766*803.", "target": "<tool_call>calculator(766*803)</tool_call>", "label": "tool_ood"}
+{"input": "For logging purposes, we just need the tool call, not the numeric result. Produce a single <tool_call> for 517*846.", "target": "<tool_call>calculator(517*846)</tool_call>", "label": "tool_ood"}
+{"input": "Instead of computing the answer, construct a calculator invocation that will evaluate 479+849 when executed.", "target": "<tool_call>calculator(479+849)</tool_call>", "label": "tool_ood"}
+{"input": "For logging purposes, we just need the tool call, not the numeric result. Produce a single <tool_call> for 310*504.", "target": "<tool_call>calculator(310*504)</tool_call>", "label": "tool_ood"}
+{"input": "I'd like to know the result of 649 / 821.", "target": "<tool_call>calculator(649/821)</tool_call>", "label": "positive"}
+{"input": "Four Frankfurt is expected to be completed in 2023.", "target": "Four Frankfurt is expected to be completed in 2023.", "label": "negative"}
+{"input": "For logging purposes, we just need the tool call, not the numeric result. Produce a single <tool_call> for 799/840.", "target": "<tool_call>calculator(799/840)</tool_call>", "label": "tool_ood"}

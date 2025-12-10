@@ -1,0 +1,16 @@
+-e ./src/transformer_lens # install local transformer_lens package
+
+torch
+transformers
+peft
+datasets
+accelerate
+safetensors
+sentencepiece
+
+numpy
+pandas
+matplotlib
+tqdm
+scipy
+huggingface-hub
