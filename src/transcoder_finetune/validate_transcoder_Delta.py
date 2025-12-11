@@ -62,7 +62,7 @@ class DeltaTranscoder(nn.Module):
         return base_recon + delta_recon
 
 # -----------------------------------------------------------------------------
-# 2. 加载器与辅助函数
+# 2. Loaders and helper functions
 # -----------------------------------------------------------------------------
 
 def select_transcoder_from_hub(repo_id, layer_idx, width_dir, percentile=0.5) -> str:

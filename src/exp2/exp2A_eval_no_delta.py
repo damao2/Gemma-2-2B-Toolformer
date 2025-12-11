@@ -181,7 +181,7 @@ def load_jsonl_by_label(
 
 
 # ================================================================
-# 3. Hook 创建：full / no_delta + 激活统计
+# 3. Hook creation: full/no_delta activation statistics
 # ================================================================
 
 def create_hooks_for_layer_mode(
