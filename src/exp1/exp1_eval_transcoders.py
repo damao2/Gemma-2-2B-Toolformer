@@ -15,12 +15,8 @@ from huggingface_hub import hf_hub_download, HfApi
 import transformer_lens
 import matplotlib.pyplot as plt
 
-# ================================================================
-# 1. SAE / DeltaTranscoder 模块定义
-# ================================================================
 
 class JumpReLU_Module(nn.Module):
-    """Gemma-Scope Transcoder / SAE 基本模块（与训练脚本一致）"""
     def __init__(self, d_model, d_sae, device=None, dtype=None):
         super().__init__()
         factory_kwargs = {'device': device, 'dtype': dtype}
@@ -29,7 +25,7 @@ class JumpReLU_Module(nn.Module):
         self.b_enc = nn.Parameter(torch.empty(d_sae, **factory_kwargs))
         self.W_dec = nn.Parameter(torch.empty((d_sae, d_model), **factory_kwargs))
         self.b_dec = nn.Parameter(torch.empty(d_model, **factory_kwargs))
-        # threshold 只读
+        # threshold 
         self.threshold = nn.Parameter(torch.empty(d_sae, **factory_kwargs), requires_grad=False)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
@@ -40,7 +36,6 @@ class JumpReLU_Module(nn.Module):
 
 
 class DeltaTranscoder(nn.Module):
-    """封装 base SAE + delta SAE（用于推理时输出 base+delta 重建）"""
     def __init__(self, base_transcoder: JumpReLU_Module, d_new: int):
         super().__init__()
         self.base_transcoder = base_transcoder
@@ -59,14 +54,10 @@ class DeltaTranscoder(nn.Module):
         return base_recon + delta_recon
 
 
-# ================================================================
-# 2. 加载器与辅助函数
-# ================================================================
-
 def select_base_filename_from_hub(
     repo_id: str, layer_idx: int, width_dir: str, percentile: float
 ) -> str:
-    """从 HF Hub 选出给定层、给定 percentile 的 base SAE .npz 文件名"""
+    """Select base SAE .npz filename from HF Hub for given layer and percentile"""
     print(f"[HF] Search base SAE in {repo_id}, layer={layer_idx}, width={width_dir} ...")
     api = HfApi()
     pref = f"layer_{layer_idx}/{width_dir}/average_l0_"
@@ -88,7 +79,7 @@ def select_base_filename_from_hub(
 def load_base_transcoder_from_hub(
     repo_id: str, filename: str, device: torch.device
 ) -> JumpReLU_Module:
-    """加载原始 Gemma-Scope SAE 参数到 JumpReLU_Module"""
+    """Load original Gemma-Scope SAE parameters into JumpReLU_Module"""
     path = hf_hub_download(repo_id=repo_id, filename=filename)
     params = np.load(path)
     d_model = params["b_dec"].shape[0]
@@ -105,19 +96,19 @@ def find_delta_checkpoint(
     delta_root: str, layer: int, d_new: int, percentile: float
 ) -> str:
     """
-    根据 layer, d_new, percentile 在 delta_root 下自动查找 best_model.pt。
-    默认匹配模式: layer_{L}_dnew_{d_new}_pctl_* / best_model.pt
-    你可以根据实际目录结构修改此函数。
+    Automatically find best_model.pt under delta_root for given layer, d_new, percentile.
+    default matching mode: layer_{L}_dnew_{d_new}_pctl_* / best_model.pt
+    You can modify this function according to your actual directory structure.
     """
     p_str = f"{percentile:.2f}"
     # p_str=percentile
-    # 尝试更具体的前缀
+    # Try more specific prefix
     pattern1 = os.path.join(
         delta_root, f"dnew_{d_new}_pctl_{p_str}", f"layer_{layer}_dnew_{d_new}_pctl_{p_str}", "best_model.pt"
     )
     if os.path.exists(pattern1):
         return pattern1
-    # 回退: 用通配符匹配
+    # Fallback: use wildcard matching
     pattern2 = os.path.join(delta_root, f"dnew_{d_new}_pctl_*", f"layer_{layer}_dnew_{d_new}_pctl_*", "best_model.pt")
     matches = glob.glob(pattern2)
     if not matches:
@@ -133,7 +124,7 @@ def load_finetuned_delta_transcoder(
     finetuned_path: str, base_transcoder: JumpReLU_Module,
     d_new: int, device: torch.device
 ) -> DeltaTranscoder:
-    """加载你训练好的 DeltaTranscoder state_dict（best_model.pt）"""
+    """Load your trained DeltaTranscoder state_dict (best_model.pt)"""
     print(f"[Delta] Loading finetuned DeltaTranscoder: {finetuned_path}")
     model = DeltaTranscoder(base_transcoder, d_new).to(device)
     state_dict = torch.load(finetuned_path, map_location=device)
@@ -144,14 +135,14 @@ def load_finetuned_delta_transcoder(
 
 
 def tokenize_prompts(tokenizer, eval_file: str, device: torch.device) -> List[torch.Tensor]:
-    """读取 eval_file，每行一个 prompt，标准化换行并编码为 input_ids 张量"""
+    """Read eval_file, one prompt per line, normalize newlines and encode as input_ids tensors"""
     prompts: List[str] = []
     with open(eval_file, "r", encoding="utf-8") as f:
         for line in f:
             line = line.rstrip("\n")
             if not line.strip():
                 continue
-            # 把字面 "\n" 变为真实换行，并确保末尾有一个换行
+            # Replace literal "\n" with actual newline, ensure ending with a newline
             text = line.replace("\\n", "\n").rstrip() + "\n"
             prompts.append(text)
 
@@ -169,8 +160,8 @@ def ce_on_dataset(
     fwd_hooks: List[Tuple[str, callable]] = None,
 ) -> float:
     """
-    在整个数据集上计算 token-level 平均 CE。
-    如果提供 fwd_hooks，则在该 hook 环境下前向。
+    Compute token-level average CE over the entire dataset.
+    If fwd_hooks are provided, forward under that hook context.
     """
     total_loss = 0.0
     total_tokens = 0
@@ -181,7 +172,7 @@ def ce_on_dataset(
             else:
                 with model.hooks(fwd_hooks=fwd_hooks):
                     logits = model(ids, return_type="logits")
-            # shift CE（忽略最后一个 token 的预测）
+            # shift CE (ignore prediction of last token)
             loss = F.cross_entropy(
                 logits[:, :-1, :].reshape(-1, logits.size(-1)),
                 ids[:, 1:].reshape(-1),
@@ -193,7 +184,7 @@ def ce_on_dataset(
 
 
 # ================================================================
-# 3. Hook 创建与层重建 metrics 累积
+# 3. Hook creation and layer reconstruction metrics accumulation
 # ================================================================
 
 def create_hooks_for_single_layer(
@@ -203,10 +194,7 @@ def create_hooks_for_single_layer(
     use_norm: bool = True,
 ) -> List[Tuple[str, callable]]:
     """
-    为单层创建 hook:
-      - 捕获 hook_mlp_in 输入
-      - 替换 hook_mlp_out 输出为 SAE 重建
-      - 同时累积 cos / l2_ratio / mean / std 等指标到 metrics[layer_idx]
+    Create hooks for a single layer:
     """
     fwd_hooks: List[Tuple[str, callable]] = []
     context: Dict[str, torch.Tensor] = {}
@@ -229,7 +217,7 @@ def create_hooks_for_single_layer(
         else:
             recon = tm(x)
 
-        # 统计重建质量
+        # Accumulate reconstruction quality metrics
         with torch.no_grad():
             B, T, D = mlp_output.shape
             orig = mlp_output.reshape(-1, D)
@@ -262,7 +250,7 @@ def create_hooks_for_single_layer(
             m["rec_std_sum"] += float(recon.std().item())
             m["n_batches"] += 1
 
-        # 保留 BOS 位置不变
+        # Preserve BOS position unchanged
         if x.shape[1] > 0:
             recon[:, 0, :] = mlp_output[:, 0, :]
         return recon.to(mlp_output.dtype)
@@ -273,7 +261,7 @@ def create_hooks_for_single_layer(
 
 
 def summarize_layer_metrics(m: Dict) -> Dict:
-    """将累积量转成平均指标"""
+    """Convert accumulated quantities into average metrics"""
     n_tok = max(1, m.get("n_tokens", 0))
     n_batch = max(1, m.get("n_batches", 0))
     return dict(
@@ -289,14 +277,14 @@ def summarize_layer_metrics(m: Dict) -> Dict:
 
 
 # ================================================================
-# 4. 主实验流程
+# 4. Main Experiment Workflow
 # ================================================================
 
 def run_experiment(args):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     os.makedirs(args.output_dir, exist_ok=True)
 
-    # ---------- 4.1 加载微调后的 Gemma 模型 ----------
+    # ---------- 4.1 Load finetuned Gemma model ----------
     print("[Model] Loading tokenizer & finetuned base model...")
     tokenizer = AutoTokenizer.from_pretrained(args.model_name)
     if tokenizer.pad_token is None:
@@ -325,12 +313,12 @@ def run_experiment(args):
     print("[Eval] Tokenizing prompts...")
     token_batches = tokenize_prompts(tokenizer, args.eval_file, device)
 
-    # ---------- 4.2 Raw (不挂 SAE) ----------
+    # ---------- 4.2 Raw (without SAE) ----------
     print("[Eval] Computing RAW CE over dataset...")
     ce_raw = ce_on_dataset(model, token_batches, fwd_hooks=None)
     print(f"[RAW] CE = {ce_raw:.6f}")
 
-    # 层列表
+    # Layer list
     if args.layers == "all":
         layer_list = list(range(model.cfg.n_layers))
     else:
@@ -338,21 +326,21 @@ def run_experiment(args):
 
     print(f"[Layers] Will evaluate layers: {layer_list}")
 
-    # 存放所有结果
+    # Store all results
     rows: List[Dict] = []
 
-    # ---------- 4.3 对每一层做 Base-only & Full (base+delta) ----------
+    # ---------- 4.3 Do Base-only & Full (base+delta) for each layer ----------
     for L in layer_list:
         print(f"\n========== Layer {L} ==========")
 
-        # 4.3.1 Base-only: 原始 Gemma-Scope SAE
+        # 4.3.1 Base-only: Original Gemma-Scope SAE
         print(f"[Base] Loading base SAE for layer {L} ...")
         base_filename = select_base_filename_from_hub(
             args.sae_repo, L, args.sae_width_dir, args.percentile
         )
         base_sae = load_base_transcoder_from_hub(args.sae_repo, base_filename, device)
 
-        # 该层的 metrics 累积
+        # Accumulate metrics for this layer
         base_metrics: Dict[int, Dict] = {}
 
         base_hooks = create_hooks_for_single_layer(
@@ -392,7 +380,7 @@ def run_experiment(args):
 
         full_layer_summary = summarize_layer_metrics(full_metrics[L])
 
-        # 汇总一行
+        
         row = dict(
             layer=L,
             d_new=args.d_new,
@@ -419,7 +407,7 @@ def run_experiment(args):
         )
         rows.append(row)
 
-    # ---------- 4.4 保存 CSV / JSON ----------
+    # ---------- 4.4 Save CSV / JSON ----------
     tag = f"d{args.d_new}_p{args.percentile}"
     csv_path = os.path.join(args.output_dir, f"exp1_metrics_{tag}.csv")
     json_path = os.path.join(args.output_dir, f"exp1_metrics_{tag}.json")
@@ -438,7 +426,7 @@ def run_experiment(args):
         print("[WARN] No rows collected — check layers / eval_file / paths.")
         return
 
-    # ---------- 4.5 画图并保存 ----------
+    # ---------- 4.5 Plot and save ----------
     layers = [r["layer"] for r in rows]
     dce_base = [r["dce_base"] for r in rows]
     dce_full = [r["dce_full"] for r in rows]
@@ -492,20 +480,20 @@ def parse_args():
     p.add_argument("--output_dir", type=str, default="./exp1_outputs",
                    help="Where to save metrics & plots")
 
-    # 原始 Gemma-Scope SAE repo
+    # Original Gemma-Scope SAE repo
     p.add_argument("--sae_repo", type=str,
                    default="google/gemma-scope-2b-pt-transcoders")
     p.add_argument("--sae_width_dir", type=str, default="width_16k")
     p.add_argument("--percentile", type=float, required=True,
                    help="Percentile used to select base SAE (e.g. 0.50)")
 
-    # DeltaTranscoder 配置
+    # DeltaTranscoder configuration
     p.add_argument("--delta_root", type=str, required=True,
                    help="Root dir containing finetuned DeltaTranscoder checkpoints")
     p.add_argument("--d_new", type=int, required=True,
                    help="Number of new features (delta dim)")
 
-    # 层选择: "all" 或 "0,1,2,..." 
+    # Layer selection: "all" or "0,1,2,..." 
     p.add_argument("--layers", type=str, default="all",
                    help='Layers to eval: "all" or comma list like "16,20,22"')
 

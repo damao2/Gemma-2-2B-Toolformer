@@ -18,12 +18,9 @@ from huggingface_hub import hf_hub_download, HfApi
 import transformer_lens
 import matplotlib.pyplot as plt
 
-# ================================================================
-# 1. SAE / DeltaTranscoder 基本模块
-# ================================================================
 
 class JumpReLU_Module(nn.Module):
-    """Gemma-Scope Transcoder / SAE 基本模块（与训练脚本一致）"""
+
     def __init__(self, d_model, d_sae, device=None, dtype=None):
         super().__init__()
         factory_kwargs = {'device': device, 'dtype': dtype}
@@ -32,7 +29,7 @@ class JumpReLU_Module(nn.Module):
         self.b_enc = nn.Parameter(torch.empty(d_sae, **factory_kwargs))
         self.W_dec = nn.Parameter(torch.empty((d_sae, d_model), **factory_kwargs))
         self.b_dec = nn.Parameter(torch.empty(d_model, **factory_kwargs))
-        # threshold 只读
+        # threshold 
         self.threshold = nn.Parameter(torch.empty(d_sae, **factory_kwargs), requires_grad=False)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
@@ -43,10 +40,7 @@ class JumpReLU_Module(nn.Module):
 
 
 class DeltaTranscoder(nn.Module):
-    """
-    base SAE + delta SAE（fused SAE）
-    注意：在本实验里我们不会直接调用它的 forward，而是在 hook 里手动算 base/delta。
-    """
+
     def __init__(self, base_transcoder: JumpReLU_Module, d_new: int):
         super().__init__()
         self.base_transcoder = base_transcoder
@@ -65,14 +59,10 @@ class DeltaTranscoder(nn.Module):
         return base_recon + delta_recon
 
 
-# ================================================================
-# 2. SAE / Delta 加载 & 数据加载
-# ================================================================
-
 def select_base_filename_from_hub(
     repo_id: str, layer_idx: int, width_dir: str, percentile: float
 ) -> str:
-    """从 HF Hub 选出给定层、给定 percentile 的 base SAE .npz 文件名"""
+
     print(f"[HF] Search base SAE in {repo_id}, layer={layer_idx}, width={width_dir} ...")
     api = HfApi()
     pref = f"layer_{layer_idx}/{width_dir}/average_l0_"
@@ -94,7 +84,7 @@ def select_base_filename_from_hub(
 def load_base_transcoder_from_hub(
     repo_id: str, filename: str, device: torch.device
 ) -> JumpReLU_Module:
-    """加载原始 Gemma-Scope SAE 参数到 JumpReLU_Module"""
+
     path = hf_hub_download(repo_id=repo_id, filename=filename)
     params = np.load(path)
     d_model = params["b_dec"].shape[0]
@@ -110,11 +100,7 @@ def load_base_transcoder_from_hub(
 def find_delta_checkpoint(
     delta_root: str, layer: int, d_new: int, percentile: float
 ) -> str:
-    """
-    根据 layer, d_new, percentile 在 delta_root 下自动查找 best_model.pt。
-    目录假定大致形如:
-      /.../dnew_{d_new}_pctl_0.50/layer_{L}_dnew_{d_new}_pctl_0.50/best_model.pt
-    """
+   
     p_str = f"{percentile:.2f}"
     pattern1 = os.path.join(
         delta_root,
@@ -146,7 +132,6 @@ def load_finetuned_delta_transcoder(
     finetuned_path: str, base_transcoder: JumpReLU_Module,
     d_new: int, device: torch.device
 ) -> DeltaTranscoder:
-    """加载你训练好的 DeltaTranscoder state_dict（best_model.pt）"""
     print(f"[Delta] Loading finetuned DeltaTranscoder: {finetuned_path}")
     model = DeltaTranscoder(base_transcoder, d_new).to(device)
     state_dict = torch.load(finetuned_path, map_location=device)
@@ -162,10 +147,7 @@ def load_jsonl_by_label(
     copy_labels: Set[str],
     tool_ood_labels: Set[str],
 ) -> Dict[str, List[Dict[str, Any]]]:
-    """
-    读取 JSONL，每行至少包含: input, target, label
-    根据 label 分成子集: tool, copy, tool_ood
-    """
+
     subsets: Dict[str, List[Dict[str, Any]]] = {
         "tool": [],
         "copy": [],
@@ -189,10 +171,6 @@ def load_jsonl_by_label(
     return subsets
 
 
-# ================================================================
-# 3. Hook 创建：full / no_delta + 激活统计
-# ================================================================
-
 def create_hooks_for_layer_mode(
     layer_idx: int,
     fused_sae: DeltaTranscoder,
@@ -201,14 +179,7 @@ def create_hooks_for_layer_mode(
     use_norm: bool = True,
     alpha: float = 1.0,
 ) -> List[Tuple[str, callable]]:
-    """
-    为单层创建 hook，用 fused SAE 的 base+delta：
-      - mode='full'    : 重建 = base + delta
-      - mode='no_delta': 重建 = base （但仍统计 delta 激活）
-    同时统计:
-      - mean_abs_base_acts, mean_abs_delta_acts
-    累积到 metrics dict 中（在 eval 时按 subset 调用一次）。
-    """
+
     assert mode in ("full", "no_delta")
     fwd_hooks: List[Tuple[str, callable]] = []
     context: Dict[str, torch.Tensor] = {}
@@ -232,7 +203,7 @@ def create_hooks_for_layer_mode(
             norm_factor = 1.0
             x_norm = x
 
-        # 手动计算 base / delta acts & recon
+
         x_norm = x_norm.to(base.W_enc.dtype)
         pre_b = x_norm @ base.W_enc + base.b_enc
         acts_b = F.relu(pre_b) * (pre_b > base.threshold).float()
@@ -254,7 +225,7 @@ def create_hooks_for_layer_mode(
 
         recon = recon_norm * norm_factor
 
-        # 统计激活规模
+
         with torch.no_grad():
             metrics.setdefault("base_abs_act_sum", 0.0)
             metrics.setdefault("delta_abs_act_sum", 0.0)
@@ -265,7 +236,7 @@ def create_hooks_for_layer_mode(
             metrics["delta_abs_act_sum"] += float(acts_d.abs().sum().item())
             metrics["n_tokens"] += B * T
 
-        # BOS 位置保持不变
+
         if x.shape[1] > 0:
             recon[:, 0, :] = mlp_output[:, 0, :]
         return recon.to(mlp_output.dtype)
@@ -275,19 +246,12 @@ def create_hooks_for_layer_mode(
     return fwd_hooks
 
 
-# ================================================================
-# 4. 工具调用解析 & 评估：CE + 工具调用率 + 数学正确率
-# ================================================================
-
 TOOL_CALL_PATTERN = re.compile(
     r"<tool_call>\s*calculator\(([^)]+)\)\s*</tool_call>", re.DOTALL
 )
 
 def extract_expr_from_tool_call(text: str) -> Optional[str]:
-    """
-    从文本中提取 <tool_call>calculator(expr)</tool_call> 里的 expr。
-    若没有匹配则返回 None。
-    """
+   
     m = TOOL_CALL_PATTERN.search(text)
     if not m:
         return None
@@ -296,10 +260,7 @@ def extract_expr_from_tool_call(text: str) -> Optional[str]:
 
 
 def safe_eval_expr(expr: str) -> Optional[float]:
-    """
-    安全地对形如 '123+45*6' 的表达式求值，只允许 0-9 + - * / 与空白。
-    若非法或 eval 失败，返回 None。
-    """
+
     if not re.fullmatch(r"[0-9+\-*/\s]+", expr):
         return None
     try:
@@ -318,7 +279,7 @@ def generate_with_hooks(
     device: torch.device,
     max_new_tokens: int = 64,
 ) -> str:
-    """给定 prompt，在 (可选) hooks 下做 greedy 生成，返回新生成部分的文本。"""
+
     with torch.no_grad():
         tokens = model.to_tokens(prompt, prepend_bos=True).to(device)
 
@@ -335,7 +296,7 @@ def generate_with_hooks(
             with model.hooks(fwd_hooks=fwd_hooks):
                 out_ids = model.generate(tokens, **gen_kwargs)
 
-    # 只取新生成的部分
+
     gen_ids = out_ids[0, tokens.size(1):]
     gen_text = tokenizer.decode(gen_ids, skip_special_tokens=False)
     return gen_text
@@ -349,11 +310,7 @@ def eval_subset_for_condition(
     condition: str,
     gen_log_path: Optional[str] = None,
 ) -> Dict[str, float]:
-    """
-    - mean_ce：teacher forcing
-    - 其它三个 metric 基于真实生成
-    - 若 gen_log_path 不为 None，则把每条样本的生成写到该 JSONL 文件
-    """
+
     total_loss = 0.0
     total_tokens = 0
     n_examples = 0
@@ -361,13 +318,13 @@ def eval_subset_for_condition(
     tool_count = 0
     valid_tool_count = 0
     math_correct = 0
-    math_total = 0  # 有 gold 表达式的样本数
+    math_total = 0  
 
     for ex in examples:
         prompt = str(ex["input"])
         target = str(ex["target"])
 
-        # 编码：分别编码 prompt 与 target，然后拼接
+
         with torch.no_grad():
             prompt_ids = tokenizer(prompt, add_special_tokens=False, return_tensors="pt")["input_ids"].to(device)
             target_ids = tokenizer(target, add_special_tokens=False, return_tensors="pt")["input_ids"].to(device)
@@ -384,7 +341,7 @@ def eval_subset_for_condition(
                 with model.hooks(fwd_hooks=fwd_hooks):
                     logits = model(input_ids, return_type="logits")
 
-        # 只在 target 区间上计算 CE:
+
         logits_target = logits[:, P-1 : P+T-1, :]          # [1, T, V]
         labels_target = input_ids[:, P : P+T]              # [1, T]
 
@@ -404,7 +361,7 @@ def eval_subset_for_condition(
             prompt=prompt_for_gen,
             fwd_hooks=fwd_hooks,
             device=device,
-            max_new_tokens=64,  # 可以按你 target 长度调
+            max_new_tokens=64,  
         )
         
         if gen_log_path is not None:
@@ -423,8 +380,7 @@ def eval_subset_for_condition(
         if re.search(r"<tool_call>.*?</tool_call>", gen_text, flags=re.DOTALL):
             valid_tool_count += 1
 
-        # ---------- 数学正确率 ----------
-        # 从 gold target 与 pred_text 中提取 expr，并比较数值是否一致
+
         gold_expr = extract_expr_from_tool_call(target)
         if gold_expr is not None:
             gold_val = safe_eval_expr(gold_expr)
@@ -460,16 +416,13 @@ def eval_subset_for_condition(
     )
 
 
-# ================================================================
-# 5. 主实验：per-layer, per-subset, per-condition
-# ================================================================
 
 def run_experiment(args):
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     os.makedirs(args.output_dir, exist_ok=True)
     delta_alphas = [float(x) for x in args.delta_alphas.split(",") if x.strip()]
     print(f"[2B] Using delta alphas: {delta_alphas}")
-    # ---------- 5.1 加载模型 ----------
+
     print("[Model] Loading tokenizer & finetuned base model...")
     tokenizer = AutoTokenizer.from_pretrained(args.model_name)
     if tokenizer.pad_token is None:
@@ -497,7 +450,7 @@ def run_experiment(args):
 
     gen_dir = os.path.join(args.output_dir, "generations")
     os.makedirs(gen_dir, exist_ok=True)
-    # ---------- 5.2 加载验证集 & 按 label 分子集 ----------
+
     tool_labels = set([s.strip().lower() for s in args.tool_labels.split(",") if s.strip()])
     copy_labels = set([s.strip().lower() for s in args.copy_labels.split(",") if s.strip()])
     tool_ood_labels = set([s.strip().lower() for s in args.tool_ood_labels.split(",") if s.strip()])
@@ -510,7 +463,7 @@ def run_experiment(args):
         tool_ood_labels=tool_ood_labels,
     )
 
-    # 层列表
+
     if args.layers == "all":
         layer_list = list(range(model.cfg.n_layers))
     else:
@@ -518,10 +471,10 @@ def run_experiment(args):
 
     print(f"[Layers] Will evaluate layers: {layer_list}")
 
-    # ---------- 5.3 结果累积 ----------
+
     rows: List[Dict[str, Any]] = []
 
-    # ---------- 5.4 Raw baseline（和层无关，只按 subset 算一遍） ----------
+
     raw_stats_by_subset: Dict[str, Dict[str, float]] = {}
     for subset_name, exs in subsets.items():
         if not exs:
@@ -545,7 +498,7 @@ def run_experiment(args):
               f"valid_tool_format_rate={stats['valid_tool_format_rate']:.3f}, "
               f"math_correct_rate={stats['math_correct_rate']:.3f}")
 
-    # ---------- 5.5 对每一层: full / no_delta ----------
+
     for L in layer_list:
         print(f"\n========== Layer {L} ==========")
 
@@ -565,14 +518,14 @@ def run_experiment(args):
             device=device,
         )
 
-        # 每个 subset: 先 raw（已算好）、no_delta，再对每个 alpha 跑一次
+
         for subset_name, exs in subsets.items():
             if not exs:
                 continue
 
             raw_stats = raw_stats_by_subset.get(subset_name, None)
 
-            # ---------- no_delta（仅 base 重建） ----------
+
             no_delta_act_metrics: Dict[str, float] = {}
             no_delta_hooks = create_hooks_for_layer_mode(
                 layer_idx=L,
@@ -580,7 +533,7 @@ def run_experiment(args):
                 metrics=no_delta_act_metrics,
                 mode="no_delta",
                 use_norm=True,
-                alpha=1.0,  # 对 no_delta 无意义
+                alpha=1.0,  
             )
             print(f"[NoDelta] Evaluating subset={subset_name}, layer={L} ...")
             no_delta_gen_log = os.path.join(gen_dir, f"layer_{L}_{subset_name}_no_delta.jsonl")
@@ -596,7 +549,7 @@ def run_experiment(args):
                 gen_log_path=no_delta_gen_log,
             )
 
-            # 规范化激活 metrics
+
             def norm_act_metrics(m: Dict[str, float]) -> Tuple[float, float]:
                 n_tok = max(1, int(m.get("n_tokens", 0)))
                 base_mean = m.get("base_abs_act_sum", 0.0) / n_tok
@@ -605,7 +558,7 @@ def run_experiment(args):
 
             nod_base_act, nod_delta_act = norm_act_metrics(no_delta_act_metrics)
 
-            # ---------- 写 raw / no_delta 行 ----------
+
             if raw_stats is not None:
                 rows.append(dict(
                     layer=L,
@@ -613,7 +566,7 @@ def run_experiment(args):
                     condition="raw",
                     d_new=args.d_new,
                     percentile=args.percentile,
-                    alpha=float("nan"),  # raw 无 alpha 概念
+                    alpha=float("nan"), 
                     mean_ce=raw_stats["mean_ce"],
                     tool_call_rate=raw_stats["tool_call_rate"],
                     valid_tool_format_rate=raw_stats["valid_tool_format_rate"],
@@ -630,7 +583,7 @@ def run_experiment(args):
                 condition="no_delta",
                 d_new=args.d_new,
                 percentile=args.percentile,
-                alpha=0.0,  # 视作 alpha=0 的极端
+                alpha=0.0, 
                 mean_ce=no_stats["mean_ce"],
                 tool_call_rate=no_stats["tool_call_rate"],
                 valid_tool_format_rate=no_stats["valid_tool_format_rate"],
@@ -641,14 +594,14 @@ def run_experiment(args):
                 n_tokens=no_stats["n_tokens"],
             ))
 
-            # ---------- 对每个 alpha 跑一次 scaled full ----------
+
             for alpha in delta_alphas:
                 scaled_act_metrics: Dict[str, float] = {}
                 scaled_hooks = create_hooks_for_layer_mode(
                     layer_idx=L,
                     fused_sae=fused_sae,
                     metrics=scaled_act_metrics,
-                    mode="full",   # 逻辑上 full，但乘以 alpha
+                    mode="full",   
                     use_norm=True,
                     alpha=alpha,
                 )
@@ -690,7 +643,7 @@ def run_experiment(args):
                     n_tokens=scaled_stats["n_tokens"],
                 ))
 
-    # ---------- 5.6 保存 CSV / JSON ----------
+
     if not rows:
         print("[WARN] No rows collected — check val_file / labels / layers / paths.")
         return
@@ -710,11 +663,11 @@ def run_experiment(args):
         json.dump(rows, f, indent=2)
     print(f"[Save] Metrics saved to:\n  {csv_path}\n  {json_path}")
 
-    # ---------- 5.7 画图 ----------
+
     graphs_dir = os.path.join(args.output_dir, "graphs")
     os.makedirs(graphs_dir, exist_ok=True)
 
-    # 准备索引
+
     subsets_names = sorted({r["subset"] for r in rows})
     layers_sorted = sorted({int(r["layer"]) for r in rows})
 
@@ -724,12 +677,12 @@ def run_experiment(args):
         subset = r["subset"]
         layer = int(r["layer"])
         alpha = r.get("alpha", float("nan"))
-        # raw 的 alpha 是 NaN，这里只索引有意义的 alpha（no_delta、alpha_xx）
+
         if not isinstance(alpha, (int, float)) or math.isnan(float(alpha)):
             continue
         rows_by_sla[(subset, layer, float(alpha))] = r
 
-    # raw baseline: 每个 subset 一行即可（所有 layer 的 raw 相同）
+
     raw_by_subset: Dict[str, Dict[str, Any]] = {}
     for r in rows:
         if r["condition"] == "raw":
@@ -749,7 +702,7 @@ def run_experiment(args):
     }
 
     for subset_name in subsets_names:
-        # 该 subset 下所有非 NaN alpha（含 no_delta 的 alpha=0.0 与 alpha_xx 条件）
+
         alphas = sorted({
             float(r["alpha"])
             for r in rows
@@ -772,7 +725,7 @@ def run_experiment(args):
             ax = axes[idx]
             any_line = False
 
-            # 每个 layer 画一条 metric(alpha) 曲线
+
             for L in layers_sorted:
                 xs: List[float] = []
                 ys: List[float] = []
@@ -787,7 +740,7 @@ def run_experiment(args):
                 ax.plot(xs, ys, "o-", label=f"layer {L}")
                 any_line = True
 
-            # raw baseline 画一条水平虚线
+
             raw_row = raw_by_subset.get(subset_name, None)
             if raw_row is not None:
                 raw_val = raw_row.get(metric_name, float("nan"))
@@ -857,7 +810,7 @@ def parse_args():
         help="Where to save metrics & plots",
     )
 
-    # label 映射配置
+
     parser.add_argument(
         "--tool_labels",
         type=str,
@@ -877,7 +830,7 @@ def parse_args():
         help='Comma-separated labels treated as "tool_ood" subset',
     )
 
-    # 原始 Gemma-Scope SAE
+
     parser.add_argument(
         "--sae_repo",
         type=str,
@@ -895,7 +848,7 @@ def parse_args():
         help="Percentile used to select base SAE (e.g. 0.50)",
     )
 
-    # DeltaTranscoder 配置
+
     parser.add_argument(
         "--delta_root",
         type=str,
@@ -909,7 +862,7 @@ def parse_args():
         help="Number of new features (delta dim)",
     )
 
-    # 层选择
+
     parser.add_argument(
         "--layers",
         type=str,
@@ -917,7 +870,7 @@ def parse_args():
         help='Layers to eval: "all" or comma list like "16,20,22"',
     )
 
-    # 2B: delta 缩放系数
+
     parser.add_argument(
         "--delta_alphas",
         type=str,

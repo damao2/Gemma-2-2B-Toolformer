@@ -35,7 +35,7 @@ def to_float(x):
 
 
 def aggregate_combo(rows: List[Dict]) -> Dict:
-    """对单个 (d_new, pctl) 组合的 per-layer 行做整体 summary"""
+    """Make an overall summary for the per-layer rows of a single (d_new, pctl) combination"""
     # arrays over layers
     dce_full = np.array([to_float(r["dce_full"]) for r in rows], dtype=float)
     dce_base = np.array([to_float(r["dce_base"]) for r in rows], dtype=float)
@@ -44,7 +44,7 @@ def aggregate_combo(rows: List[Dict]) -> Dict:
     l2_full = np.array([to_float(r["full_mean_l2"]) for r in rows], dtype=float)
     l2_base = np.array([to_float(r["base_mean_l2"]) for r in rows], dtype=float)
 
-    # 简单 summary：按层平均 / 最大等
+    # Simple summary: average / maximum by layer, etc.
     summary = dict(
         mean_dce_full=float(dce_full.mean()),
         max_dce_full=float(dce_full.max()),
@@ -70,7 +70,7 @@ def main():
         for p in pcts:
             tag = f"d{d_new}_p{p}"
             p_str = f"{p:.2f}"
-            # 假设你用的是: exp1_outputs_d32_p0.50 这样的目录名
+            # Assume your directory names are like: exp1_outputs_d32_p0.50
             subdir = os.path.join(args.root_dir, f"exp1_outputs_d{d_new}_p{p_str}")
             csv_path = os.path.join(subdir, f"exp1_metrics_d{d_new}_p{p}.csv")
             if not os.path.exists(csv_path):
@@ -87,7 +87,7 @@ def main():
         print("[ERROR] No summaries collected, check paths/root_dir/d_news/percentiles.")
         return
 
-    # 保存 summary CSV / JSON
+    # Save summary CSV / JSON
     summary_csv = os.path.join(args.out_dir, "exp1_combo_summary.csv")
     summary_json = os.path.join(args.out_dir, "exp1_combo_summary.json")
 
@@ -101,8 +101,8 @@ def main():
         json.dump(all_summaries, f, indent=2)
     print(f"[Save] Summary saved to:\n  {summary_csv}\n  {summary_json}")
 
-    # ---- 画图：heatmap: x=d_new, y=pctl, value=mean_dce_full / mean_cos_full ----
-    # 先做 pivot
+    # ---- Plotting: heatmap: x=d_new, y=pctl, value=mean_dce_full / mean_cos_full ----
+    # First do pivot
     d_new_sorted = sorted({r["d_new"] for r in all_summaries})
     p_sorted = sorted({r["percentile"] for r in all_summaries})
 

@@ -63,7 +63,7 @@ All such libraries are used under their respective open-source licenses. No code
 
 ## 3. Models
 
-- **Gemma-2B (base model)**
+- **Gemma-2-2B (base model)**
   - Developed by Google.
   - Loaded via Hugging Face Transformers.
   - In this repository, we use a finetuned and merged version located under:
@@ -78,7 +78,6 @@ All such libraries are used under their respective open-source licenses. No code
   - https://huggingface.co/google/gemma-scope-2b-pt-transcoders
   - Licensing and usage follow the original Gemma-Scope terms.
 
-The local `models/` directory contains only derived / finetuned checkpoints; it does not modify the licensing of the underlying base models.
 
 ---
 

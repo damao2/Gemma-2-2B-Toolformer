@@ -80,17 +80,17 @@ contexts = [
     "I need help with this calculation."
 ]
 OOD_TOOL_TEMPLATES = [
-    # 强调“调用工具”而不是“做运算”
+
     "Without doing the arithmetic yourself, issue a single tool call that asks the calculator to evaluate {expr}.",
     "Formulate exactly one <tool_call> that makes the calculator compute {expr}, and output only that tool call.",
     "Use the calculator tool (not mental math) to obtain the value of {expr}. Respond with a <tool_call>.",
     "Act as an orchestrator: delegate the computation of {expr} to the calculator tool and return only the tool invocation.",
     "Prepare a tool call for the calculator so that it can evaluate {expr}. Do not simplify the expression by hand.",
-    # 多句上下文、嵌在自然语言里
+
     "I'm wiring this into a larger system that expects a tool call. Please wrap the expression {expr} in a <tool_call> for the calculator.",
     "Imagine you are building a pipeline: your job is to generate the <tool_call> that tells the calculator to compute {expr}.",
     "For logging purposes, we just need the tool call, not the numeric result. Produce a single <tool_call> for {expr}.",
-    # 不同描述方式
+
     "Instead of computing the answer, construct a calculator invocation that will evaluate {expr} when executed.",
     "Translate the math query {expr} into a calculator tool call, enclosed in <tool_call>...</tool_call>."
 ]
@@ -127,17 +127,15 @@ def generate_positive_samples(num_samples=100, with_context=True):
 
 def generate_ood_tool_samples(num_samples=100):
     """
-    生成分布外 (OOD) 的工具调用样本：
-      - 数值范围更大 (1000–99999)
-      - prompt 用与训练完全不同的一组模板 OOD_TOOL_TEMPLATES
-      - label = TOOL_OOD_LABEL (e.g. 'tool_ood')
+    Generate out-of-distribution (OOD) tool call samples:
+
     """
     samples = []
     ops = ["+", "-", "*", "/"]
     while len(samples) < num_samples:
-        # 用更大的数，使之与训练分布 (1–999) 有差异
+
         a = random.randint(1, 999)
-        b = random.randint(2, 999)  # 避免除以 0，也尽量不太小
+        b = random.randint(2, 999)  
         op = random.choice(ops)
         if op == "/" and b == 0:
             continue

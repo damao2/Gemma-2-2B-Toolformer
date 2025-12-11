@@ -7,9 +7,9 @@ This document explains how to install dependencies, set up the environment, and 
 ## 1. Prerequisites
 
 - Python 3.10+ (tested on Linux)
-- A GPU with CUDA is recommended for running Gemma-2B and the SAE interventions, but small tests may run on CPU.
+- A GPU with CUDA is recommended for running Gemma-2-2B and the SAE interventions, but small tests may run on CPU.
 - Sufficient disk space for:
-  - Finetuned Gemma-2B model under `models/gemma_2b_toolformer_merged_v4/`
+  - Finetuned Gemma-2-2B model downloaded from `damaoo/gemma2b-toolformer`
   - DeltaTranscoder checkpoints (not bundled; you point to them via `--delta_root`). In some of the files, download from HF is implemented, and the transcoders will download from `damaoo/gemma2b-toolformer-fused-transcoders`
 
 No external APIs or network calls are required at runtime: all models and data are local once the repo is cloned and model files are present.
@@ -47,6 +47,7 @@ At the top level:
 - `data/` – all text/jsonl datasets used for finetuning and evaluation.
   - `toolformer_finetune/` – Toolformer-style training/negative/positive samples.
   - `transcoder_finetune/` – activation text dumps for SAE training and validation.
+  - `exp1_sae_validation.txt` - dataset for Experiment 1
   - `exp2_combined_dataset*.jsonl` – merged evaluation datasets for Experiments 2A/2B.
 - `models/gemma_2b_toolformer_merged_v4/` – local finetuned Gemma-2B model and tokenizer.
 - `src/`
@@ -95,7 +96,7 @@ python train_gemma_toolformer_LoRA.py \
   --train_file ../../data/toolformer_finetune/combined_dataset.jsonl \
   --output_dir ./lora_out
 
-# Merge LoRA into base Gemma-2B
+# Merge LoRA into base Gemma-2-2B
 python merge_LoRA.py \
   --base_model google/gemma-2-2b \
   --lora_dir ./lora_out \
@@ -109,7 +110,7 @@ python validate_gemma_LoRA_Prompt.py \
   --model_path ../../models/gemma_2b_toolformer_merged_v4
 ```
 
-This script will prompt for an example input like  
+This script will take prompt as input like  
 `I'd like to know the result of 649 / 821.` and show the model’s tool call.
 
 ### 4.3 Transcoder / DeltaTranscoder Finetuning (Optional)
@@ -164,6 +165,7 @@ Key outputs:
 
 - `exp1_outputs_*/exp1_metrics_*.{csv,json}`
 - `aggregate/exp1_combo_summary.{csv,json}`
+- `cos and dce visualizations`
 
 ### 4.5 Experiment 2A: Layer-wise SAE Intervention
 
