@@ -1,0 +1,2 @@
+{"label": "pos_unseen_return_tool_call_markup_mul", "prompt": "Return the tool-call markup to evaluate 76 * 921.\n", "meta": {"family": "pos_unseen", "expectedMode": "tool_call", "seenInTraining": false, "op": "*", "expr": "76*921", "a": 76, "b": 921, "withContext": false, "templateFamily": "unseen_tool_intent", "templateId": 3}}
+

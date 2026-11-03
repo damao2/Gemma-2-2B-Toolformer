@@ -1,0 +1,239 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tool-Call Gate Circuit</title>
+<style>
+:root {
+  --bg: #fbfaf7; --panel: #ffffff; --ink: #1d1d1b; --muted: #6b6a65; --line: #e4e2dc;
+  --delta: #c2410c; --base: #2563eb; --pos: #2563eb; --neg: #c2410c; --hl: 37, 99, 235;
+  --s0: #7c3aed; --s1: #0891b2; --s2: #ca8a04; --s3: #64748b; --s4: #db2777; --s5: #16a34a;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #141413; --panel: #1d1d1b; --ink: #ecebe6; --muted: #a3a29c; --line: #34332f;
+    --delta: #fb923c; --base: #60a5fa; --pos: #60a5fa; --neg: #fb923c; --hl: 96, 165, 250;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #141413; --panel: #1d1d1b; --ink: #ecebe6; --muted: #a3a29c; --line: #34332f;
+  --delta: #fb923c; --base: #60a5fa; --pos: #60a5fa; --neg: #fb923c; --hl: 96, 165, 250;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink);
+  font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+main { max-width: 1200px; margin: 0 auto; padding: 24px 16px 64px; }
+h1 { font-size: 22px; margin: 0 0 4px; }
+h2 { font-size: 17px; margin: 32px 0 8px; }
+p.lede { color: var(--muted); margin: 0 0 16px; max-width: 760px; }
+code, .mono { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 13px; }
+.layout { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+@media (max-width: 860px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+.card { min-width: 0; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px; }
+#diagram { width: 100%; overflow-x: auto; }
+#diagram svg { display: block; width: 100%; height: auto; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 13px; color: var(--muted); margin-top: 8px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.sq { width: 10px; height: 10px; display: inline-block; border: 2px solid var(--delta); }
+.node { cursor: pointer; }
+.node:focus { outline: none; }
+.node.sel circle, .node.sel rect { stroke: var(--ink); stroke-width: 3; }
+#panel h3 { margin: 0 0 2px; font-size: 16px; }
+.meta { color: var(--muted); font-size: 13px; margin-bottom: 10px; }
+.tag { display: inline-block; font-size: 12px; padding: 1px 7px; border-radius: 99px; border: 1px solid currentColor; margin-right: 6px; }
+.tag.delta { color: var(--delta); } .tag.base { color: var(--base); }
+.snap { font-size: 13px; font-weight: 600; margin: 12px 0 4px; color: var(--muted); }
+.ex { border-top: 1px solid var(--line); padding: 6px 0; font-size: 13px; line-height: 1.9; word-break: break-word; }
+.ex .mx { color: var(--muted); font-size: 12px; margin-right: 6px; font-variant-numeric: tabular-nums; }
+.tok { border-radius: 3px; padding: 1px 0; white-space: pre-wrap; }
+.tok.max { outline: 1.5px solid rgb(var(--hl)); }
+.controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 10px; }
+select, input { font: inherit; padding: 4px 8px; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); color: var(--ink); }
+#atlas { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 8px; }
+.fcard { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; cursor: pointer; font-size: 13px; }
+.fcard:hover { border-color: var(--delta); }
+.fcard .hd { display: flex; justify-content: space-between; font-weight: 600; }
+.fcard .pv { color: var(--muted); overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.empty { color: var(--muted); }
+footer { margin-top: 40px; color: var(--muted); font-size: 13px; }
+a { color: var(--base); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Tool-call gate circuit in a fine-tuned Gemma-2-2B</h1>
+  <p class="lede">Attribution graph for the prompt <code>Calculate 3 + 5.↵</code>, where the fine-tuned model
+    outputs <code>&lt;</code> (the start of <code>&lt;tool_call&gt;</code>) with p = 0.997. The circuit was pinned
+    and labelled by hand in a self-hosted Neuronpedia. Features come from Gemma-Scope transcoders
+    (<span style="color:var(--base)">base</span>) fused with 32 learned
+    <span style="color:var(--delta)">delta</span> features per layer. Click any feature to see its top-activating text.</p>
+
+  <div class="layout">
+    <div class="card">
+      <div id="diagram"></div>
+      <div class="legend" id="legend"></div>
+    </div>
+    <div class="card" id="panel"><p class="empty">Select a feature in the circuit or in the delta index below.</p></div>
+  </div>
+
+  <h2>Delta feature index</h2>
+  <p class="lede">All delta features with stored activations, across every layer. Most were never
+    inspected by hand, so the preview is the single strongest-activating snippet.</p>
+  <div class="controls">
+    <label>Layer <select id="layerSel"><option value="all">all</option></select></label>
+    <label>Search text <input id="q" type="search" placeholder="e.g. calculate"></label>
+    <span id="count" class="meta"></span>
+  </div>
+  <div id="atlas"></div>
+
+  <footer>Source and method: <a href="https://github.com/damao2/Gemma-2-2B-Toolformer/tree/main/phase2_neuronpedia">phase2_neuronpedia/</a> · <a href="https://github.com/damao2/Gemma-2-2B-Toolformer/blob/main/WRITEUP.md">project write-up</a>.
+    Top-5 activations per feature, from two corpora: <code>general_corpus_8k</code> (tool-call prompts mixed with web text) and
+    <code>toolcall_corpus_400</code>.</footer>
+</main>
+<script>
+const SN_COLORS = ['--s0','--s1','--s2','--s3','--s4','--s5'];
+const css = v => getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+let DATA, selected = null;
+
+function esc(s) { return s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function showTok(t) { return t === '\n' ? '↵' : t; }
+
+function renderExamples(f) {
+  let html = '';
+  for (const snap of DATA.snapshots) {
+    const exs = (f.examples || {})[snap] || [];
+    html += `<div class="snap">${esc(snap)}</div>`;
+    if (!exs.length) { html += '<div class="ex empty">no stored examples</div>'; continue; }
+    for (const e of exs) {
+      const mx = Math.max(e.max, 1e-6);
+      const toks = e.tokens.map((t, i) => {
+        const a = Math.max(0, Math.min(1, (e.values[i] || 0) / mx));
+        const style = a > 0.02 ? `background: rgba(var(--hl), ${(0.12 + 0.6 * a).toFixed(2)})` : '';
+        return `<span class="tok${i === e.max_idx ? ' max' : ''}" style="${style}" title="${(e.values[i] || 0).toFixed(2)}">${esc(showTok(t))}</span>`;
+      }).join('');
+      html += `<div class="ex"><span class="mx">max ${e.max.toFixed(2)}</span>${toks}</div>`;
+    }
+  }
+  return html;
+}
+
+function showFeature(key, node) {
+  const f = DATA.features[key];
+  const p = document.getElementById('panel');
+  const [layer, feat] = key.split('_');
+  const part = Number(feat) >= 16384 ? 'delta' : 'base';
+  const label = (node && node.label) || (f && f.label) || 'unlabelled';
+  const sn = node && node.supernode ? ` · supernode: ${esc(node.supernode)}` : '';
+  const pos = node ? ` · at token <code>${esc(showTok(node.token))}</code>` : '';
+  p.innerHTML = `<h3>${esc(label)}</h3>
+    <div class="meta"><span class="tag ${part}">${part}</span>layer ${layer}, feature ${feat}${pos}${sn}</div>
+    ${f ? renderExamples(f) : '<p class="empty">No stored activations for this feature.</p>'}`;
+}
+
+function showOther(node) {
+  const p = document.getElementById('panel');
+  const what = node.type === 'logit' ? 'Output logit' : 'Token embedding';
+  p.innerHTML = `<h3>${esc(node.label || what)}</h3><div class="meta">${what} at token <code>${esc(showTok(node.token))}</code></div>`;
+}
+
+function drawDiagram() {
+  const nodes = DATA.circuit.nodes;
+  const supers = DATA.circuit.supernodes.map(s => s[0]);
+  const snColor = name => name == null ? css('--muted') : css(SN_COLORS[supers.indexOf(name) % SN_COLORS.length]);
+  const cols = [...new Set(nodes.map(n => n.ctx_idx))].sort((a, b) => a - b);
+  const W = 640, colW = W / cols.length, rowH = 17, top = 40;
+  const yOf = n => n.type === 'logit' ? top : n.type === 'embedding' ? top + 28 * rowH : top + (26 - n.layer) * rowH;
+  const groups = {};
+  nodes.forEach(n => { const k = n.ctx_idx + '|' + yOf(n); (groups[k] = groups[k] || []).push(n); });
+  const pos = {};
+  Object.values(groups).forEach(g => g.forEach((n, i) => {
+    const cx = cols.indexOf(n.ctx_idx) * colW + colW / 2 + (i - (g.length - 1) / 2) * 22;
+    pos[n.node_id] = [cx, yOf(n)];
+  }));
+  const H = top + 29 * rowH + 24;
+  let s = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Circuit diagram">`;
+  for (let l = 0; l <= 25; l += 5) {
+    const y = top + (26 - l) * rowH;
+    s += `<text x="2" y="${y + 4}" font-size="10" fill="${css('--muted')}">L${l}</text>`;
+  }
+  cols.forEach((c, i) => {
+    s += `<text x="${i * colW + colW / 2}" y="${H - 6}" font-size="12" text-anchor="middle" fill="${css('--muted')}" font-family="ui-monospace,monospace">${esc(showTok(DATA.graph.prompt_tokens[c]))}</text>`;
+  });
+  const maxW = Math.max(...DATA.graph.edges.map(e => Math.abs(e.weight)), 1e-6);
+  DATA.graph.edges.forEach(e => {
+    const a = pos[e.source], b = pos[e.target];
+    if (!a || !b) return;
+    const w = 0.4 + 3 * Math.abs(e.weight) / maxW;
+    s += `<line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="${e.weight >= 0 ? css('--pos') : css('--neg')}" stroke-opacity="0.35" stroke-width="${w.toFixed(2)}"/>`;
+  });
+  nodes.forEach(n => {
+    const [x, y] = pos[n.node_id];
+    const col = snColor(n.supernode);
+    const isDelta = n.transcoder_part === 'delta';
+    const shape = n.type !== 'feature'
+      ? `<rect x="${x - 6}" y="${y - 6}" width="12" height="12" rx="2" fill="${css('--panel')}" stroke="${css('--muted')}" stroke-width="1.5"/>`
+      : isDelta
+        ? `<rect x="${x - 7}" y="${y - 7}" width="14" height="14" fill="${col}" stroke="${css('--delta')}" stroke-width="2.5"/>`
+        : `<circle cx="${x}" cy="${y}" r="7" fill="${col}"/>`;
+    const title = n.type === 'feature' ? `L${n.layer} #${n.feature_index} (${n.transcoder_part}) — ${n.label || ''}` : (n.label || n.type);
+    s += `<g class="node" tabindex="0" data-id="${n.node_id}">${shape}<title>${esc(title)}</title></g>`;
+  });
+  s += '</svg>';
+  document.getElementById('diagram').innerHTML = s;
+  document.querySelectorAll('.node').forEach(el => {
+    const pick = () => {
+      document.querySelectorAll('.node.sel').forEach(x => x.classList.remove('sel'));
+      el.classList.add('sel');
+      const n = nodes.find(m => m.node_id === el.dataset.id);
+      n.type === 'feature' ? showFeature(`${n.layer}_${n.feature_index}`, n) : showOther(n);
+    };
+    el.addEventListener('click', pick);
+    el.addEventListener('keydown', ev => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); pick(); } });
+  });
+  document.getElementById('legend').innerHTML =
+    supers.map(n => `<span><i class="dot" style="background:${snColor(n)}"></i>${esc(n)}</span>`).join('') +
+    `<span><i class="dot" style="background:var(--muted)"></i>base feature (circle)</span><span><i class="sq"></i>delta feature (square)</span>`;
+}
+
+function drawAtlas() {
+  const layer = document.getElementById('layerSel').value;
+  const q = document.getElementById('q').value.trim().toLowerCase();
+  const items = Object.entries(DATA.features)
+    .filter(([, f]) => f.is_delta && (layer === 'all' || String(f.layer) === layer))
+    .map(([k, f]) => {
+      const ex = DATA.snapshots.map(s => (f.examples[s] || [])[0]).filter(Boolean).sort((a, b) => b.max - a.max)[0];
+      const text = ex ? ex.tokens.join('') : '';
+      return { k, f, text };
+    })
+    .filter(it => !q || it.text.toLowerCase().includes(q) || (it.f.label || '').toLowerCase().includes(q))
+    .sort((a, b) => a.f.layer - b.f.layer || a.f.feature - b.f.feature);
+  document.getElementById('count').textContent = `${items.length} features`;
+  document.getElementById('atlas').innerHTML = items.map(it =>
+    `<div class="fcard" tabindex="0" data-k="${it.k}"><div class="hd"><span>L${it.f.layer} #${it.f.feature}</span>${it.f.in_circuit ? '<span class="tag delta">in circuit</span>' : ''}</div>
+     ${it.f.label ? `<div>${esc(it.f.label)}</div>` : ''}<div class="pv">${esc(it.text.replace(/\n/g, '↵ '))}</div></div>`).join('');
+  document.querySelectorAll('.fcard').forEach(el => {
+    const go = () => { showFeature(el.dataset.k, null); document.getElementById('panel').scrollIntoView({ behavior: 'smooth', block: 'start' }); };
+    el.addEventListener('click', go);
+    el.addEventListener('keydown', ev => { if (ev.key === 'Enter') go(); });
+  });
+}
+
+fetch('data.json').then(r => r.json()).then(d => {
+  DATA = d;
+  drawDiagram();
+  const layers = [...new Set(Object.values(d.features).filter(f => f.is_delta).map(f => f.layer))].sort((a, b) => a - b);
+  const sel = document.getElementById('layerSel');
+  layers.forEach(l => sel.insertAdjacentHTML('beforeend', `<option value="${l}">${l}</option>`));
+  sel.addEventListener('change', drawAtlas);
+  document.getElementById('q').addEventListener('input', drawAtlas);
+  drawAtlas();
+}).catch(err => {
+  document.getElementById('diagram').innerHTML = `<p class="empty">Could not load data.json (${esc(String(err))}). Serve this folder over HTTP.</p>`;
+});
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => DATA && drawDiagram());
+</script>
+</body>
+</html>

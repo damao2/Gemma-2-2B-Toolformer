@@ -2,6 +2,12 @@
 
 Short project exploring how a Gemma-2-2B model finetuned for calculator tool calls behaves internally, and an explainable and friendly fine-tuning method of Transcoders to match with the fine-tuned model to do mechanistic interpretability studies. The repo contains code to generate tool-calling data, finetune the model and SAEs, and run behavioral / mechanistic evaluations.
 
+> **Project write-up:** [`WRITEUP.md`](WRITEUP.md) covers both phases.
+> **Phase 2 (attribution graphs via a self-hosted Neuronpedia):** [`phase2_neuronpedia/`](phase2_neuronpedia/) ·
+> [interactive circuit viewer](docs/circuit-viewer/).
+> Phase 2 revises one conclusion of this README: the tool-call decision behaves like a brittle,
+> template-driven heuristic gate rather than evidence of semantic generalization.
+
 ---
 
 ## What it Does
