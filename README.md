@@ -1,12 +1,43 @@
 # Toolformer + Delta Transcoders for Gemma-2-2B
 
-Short project exploring how a Gemma-2-2B model finetuned for calculator tool calls behaves internally, and an explainable and friendly fine-tuning method of Transcoders to match with the fine-tuned model to do mechanistic interpretability studies. The repo contains code to generate tool-calling data, finetune the model and SAEs, and run behavioral / mechanistic evaluations.
+How does a Gemma-2-2B model fine-tuned to call a calculator decide *when* to call it?
+This project fine-tunes the model, adapts Gemma-Scope transcoders to it with a small set of
+learned **delta features**, and then traces the decision with layer interventions (Phase 1)
+and attribution graphs in a self-hosted Neuronpedia (Phase 2). The short answer: the
+decision is a brittle, template-driven **heuristic gate**, and the fine-tune implements it
+with delta features that recognise its training templates in layers 17–22.
 
-> **Project write-up:** [`WRITEUP.md`](WRITEUP.md) covers both phases.
-> **Phase 2 (attribution graphs via a self-hosted Neuronpedia):** [`phase2_neuronpedia/`](phase2_neuronpedia/) ·
-> [interactive circuit viewer](docs/circuit-viewer/).
-> Phase 2 revises one conclusion of this README: the tool-call decision behaves like a brittle,
-> template-driven heuristic gate rather than evidence of semantic generalization.
+> [!TIP]
+> **Just want to see a case study? Open the [interactive circuit viewer](https://damao2.github.io/Gemma-2-2B-Toolformer/circuit-viewer/). Nothing to install.**
+>
+> You do **not** need to set up the self-hosted Neuronpedia stack (Postgres, graph server,
+> webapp, GPU) to explore this work. The viewer is a read-only page that runs in your
+> browser, with the traced circuit and the top-activating text of every delta feature.
+> Neuronpedia is only needed to generate *new* attribution graphs.
+
+> **What the viewer shows.** The circuit traced by hand for the prompt `Calculate 3 + 5.`,
+> where the model starts a tool call with p = 0.997: 23 transcoder features in six labelled
+> groups, with base and delta features marked. Click any feature to see the text it responds to
+> most strongly, or browse and search all 800 delta features. For example, the layer-20 delta
+> feature labelled *"Trying to Figure Out" Intent Matcher* turns out to fire on one training
+> template, `I'm trying to figure out a op b.`.
+
+## Start here
+
+| If you want to… | Go to |
+|---|---|
+| **Understand the whole project**: questions, method, results and limitations of both phases | [**`WRITEUP.md`**](WRITEUP.md) |
+| **See the results without installing anything** | [**Interactive circuit viewer**](https://damao2.github.io/Gemma-2-2B-Toolformer/circuit-viewer/) |
+| Learn how Phase 2 works: the Neuronpedia setup, evaluation protocol and circuit analysis | [`phase2_neuronpedia/README.md`](phase2_neuronpedia/README.md) |
+| Use the feature-activation data (4.2M top-activating snippets, 426,779 features) | [HF dataset `damaoo/gemma2b-toolformer-feature-activations`](https://huggingface.co/datasets/damaoo/gemma2b-toolformer-feature-activations) |
+| Use the models | [`damaoo/gemma2b-toolformer`](https://huggingface.co/damaoo/gemma2b-toolformer) · [delta transcoders](https://huggingface.co/damaoo/gemma2b-toolformer-delta-transcoders) · [fused transcoders](https://huggingface.co/damaoo/gemma2b-toolformer-fused-transcoders) |
+| Reproduce Phase 1 (fine-tuning, delta transcoders, Experiments 1–2) | [Quick Start](#quick-start) below |
+
+
+
+> The rest of this README documents **Phase 1** as originally written. Phase 2 revises one of
+> its conclusions: the tool-call decision behaves like a brittle, template-driven heuristic
+> gate rather than evidence of semantic generalization. See the write-up.
 
 ---
 
