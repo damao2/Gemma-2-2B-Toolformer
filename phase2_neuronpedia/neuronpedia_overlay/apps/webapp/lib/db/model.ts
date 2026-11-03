@@ -52,7 +52,7 @@ export const getGlobalModels = async (user?: AuthenticatedUser | null) => {
     return models;
   } catch (e) {
     console.error('getGlobalModels failed, returning empty list:', e);
-    // 对你的本地 graph 分析来说，没有这些全局模型列表没关系
+    // Local graph analysis does not need these global model lists
     return [];
   }
 };

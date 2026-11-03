@@ -362,7 +362,7 @@ export default function GlobalProvider({
       return withGraphs;
     }
 
-    // 本地模型还没有任何 graph 时，允许用所有 source sets 生成第一个图
+    // A local model with no graphs yet may use any source set to generate its first graph
     return ss;
   };
 

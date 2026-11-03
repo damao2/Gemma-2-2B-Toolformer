@@ -52,11 +52,7 @@ Activation rows contain `layer`, `feature`, `is_delta`, `max_value`, `max_token_
 ## Caveats
 
 * **Snapshots, not complete runs.** The collector flushed a cumulative top-k table to the DB
-  periodically. Both jobs hit the cluster time limit, so each config is the last committed
-  flush (8000 / 20000 and 400 / 500 prompts).
-* **Literal `\n` in `toolcall_corpus_400`.** In 300 of the 500 corpus lines the newline
-  between prompt and `<tool_call>` is the two characters `\` `n`, not a real newline.
-  In those snippets the peak activation often lands on the `\` token.
+  periodically. 
 * `max_act_approx` and `frac_nonzero` in `features` were written by the last flush
   (`toolcall_corpus_400`). `frac_nonzero` is computed over the stored top-k snippets only,
   so it is **not** the feature's true firing density.

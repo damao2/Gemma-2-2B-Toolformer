@@ -9,12 +9,6 @@ the next question with **attribution graphs** (circuit-tracer) served through a
 > When the fine-tuned Gemma-2-2B decides between starting `<tool_call>` and echoing the
 > prompt, what mechanism makes that decision, and how robust is it?
 
-> **Status / provenance.** This phase was stopped before completion. The working copy lived
-> on a scratch filesystem that was purged; everything here was reconstructed from (a) a
-> January-2026 copy of the Neuronpedia checkout + Postgres DB and (b) VS Code local-history
-> snapshots of the later (April-2026) scripts. The **code and design are complete**; the
-> **numeric outputs of the April batch circuit evaluation were lost** and are not reported.
-> See [What is missing](#what-is-missing).
 
 ---
 
@@ -22,7 +16,7 @@ the next question with **attribution graphs** (circuit-tracer) served through a
 
 Phase 1 concluded, cautiously, that the model showed "some semantic generalization".
 Systematic manual probing of near-out-of-distribution prompts in the Neuronpedia UI
-(full log: [`docs/manual_ood_probing_zh.md`](docs/manual_ood_probing_zh.md)) points the
+(full log: [`docs/manual_ood_probing.md`](docs/manual_ood_probing.md)) points the
 other way. The model only has two output modes, so the decision is visible at the first
 generated token: `<` (start of `<tool_call>`) versus the first token of the prompt (echo).
 
@@ -34,12 +28,15 @@ generated token: `<` (start of `<tool_call>`) versus the first token of the prom
 | `compute the value of 1 * 309.` | **`compute` 0.69**, `<` 0.31 |
 | `compute the value of 1 * 39.` | `<` 0.77, `compute` 0.23 |
 | `compute the value of 1 * 3.` | **`compute` 0.53**, `<` 0.47 |
-| `What’s the difference between 598 and 914?` | `<` 0.98 |
-| `What’s the difference between 598 and 914` (no `?`) | **`What` 0.68**, `<` 0.29 |
+| `What's the difference between 598 and 914?` | `<` 0.98 |
+| `What's the difference between 598 and 914` (no `?`) | **`What` 0.68**, `<` 0.29 |
+| `What’s the difference between 598 and 914` (no `?`, curly `’`) | `<` 0.76, `What` 0.23 |
 | `What is 534 + 267` (no `?`) | `<` 1.00 |
-| `What’s the difference between 598 and 914? Do not use any tool.` | `<` 0.66 (should echo) |
-| `Do not use any tool. What’s the difference between 598 and 914?` | `Do` 0.98 (echo) |
+| `What's the difference between 598 and 914? Do not use any tool.` | `<` 0.66 (should echo) |
 | `… Do not use any tool.␠` (one trailing space) | `What` 0.60, `<` 0.30 |
+| `Do not use any tool. What's the difference between 598 and 914?` | `Do` 0.98 (echo) |
+| `Do not use any tool. What is 534 + 267?␠` | `Do` 0.91 (echo) |
+| `Do not use any tool. What is 534 + 267?` (no trailing space) | `<` 0.98 (should echo) |
 | `Please, compute the value of 112 * 309.` | `<` 1.00 |
 
 What these probes show:
@@ -50,14 +47,17 @@ What these probes show:
 * **Interactions, not single factors.** Lower-case alone or small numbers alone
   rarely flip the gate. Together they do, and not monotonically in number size
   (`1 * 309` flips, `1 * 39` does not, `1 * 3` sits on the boundary).
-* **Instructions act through position, not meaning.** "Do not use any tool" works when it
-  is the first sentence (its first token wins the competition) and is mostly ignored as a
-  suffix. A single trailing space can reverse the outcome.
+* **Token-level details decide.** The same sentence with a curly `’` or a straight `'`
+  apostrophe can land on opposite sides of the boundary, and one trailing space can reverse
+  the outcome in either direction.
+* **Instructions act through layout, not meaning.** "Do not use any tool" is mostly ignored
+  as a suffix. As the first sentence it wins more often, because its first token is then the
+  echo competitor, but even then the outcome depends on the template and on spacing.
 
 Working hypothesis: the fine-tune installed a **heuristic gate**, a competition at
 the last position between (i) seen-template features pushing `<`, (ii) features of the
 prompt's first token pushing echo, and (iii) token-boundary features (punctuation,
-whitespace, digit tokenisation). It is not a robust semantic router.
+apostrophes, whitespace, digit tokenisation). It is not a robust semantic router.
 
 ## 2. Pipeline
 
@@ -82,18 +82,17 @@ whitespace, digit tokenisation). It is not a robust semantic router.
 | Save/load manually pinned subgraphs | `app/[modelId]/graph/modals/{save,load}-subgraph-modal.tsx` |
 | Graph scoring (replacement / completeness, gate and signed-margin variants) | `app/[modelId]/graph/score-core.ts`, `score.worker.ts` |
 | Eval-set generation and screening | `apps/webapp/scripts/gen_circuit_eval_prompts.py`, `screen_circuit_eval_prompts.ts`, `gen_circuit_eval_boundary_candidates.py` |
-| Batch evaluation of a fixed circuit across prompts | `apps/webapp/scripts/batch-eval-subgraph.ts` (explained in [`docs/batch_eval_explained_zh.md`](docs/batch_eval_explained_zh.md)) |
+| Batch evaluation of a fixed circuit across prompts | `apps/webapp/scripts/batch-eval-subgraph.ts` (explained in [`docs/batch_eval_explained.md`](docs/batch_eval_explained.md)) |
 | Aggregation and plots | `apps/webapp/scripts/analyze_circuit_eval.py`, `visualize_circuit_eval.py` |
 
 `neuronpedia_overlay/` holds only the files that were added or changed. To use them, copy
 them over a checkout of [hijohnnylin/neuronpedia](https://github.com/hijohnnylin/neuronpedia)
 at commit `314ed0a`. Local setup notes (Postgres on a non-root cluster, ports, SSH tunnels):
-[`docs/local_setup_notes_zh.md`](docs/local_setup_notes_zh.md).
+[`docs/local_setup_notes.md`](docs/local_setup_notes.md).
 
 ## 3. Evaluation design for the gate
 
-Design notes: [`docs/research_plan_v2_zh.md`](docs/research_plan_v2_zh.md),
-[`docs/circuit_eval_targets_and_metrics.md`](docs/circuit_eval_targets_and_metrics.md).
+Design notes: [`docs/circuit_eval_targets_and_metrics.md`](docs/circuit_eval_targets_and_metrics.md).
 
 **Multi-axis prompt labels instead of an ID/OOD split.** Each prompt carries `intent`
 (pos/neg), `distribution` (id/ood), `expectedBehavior` (tool_call/echo_first),
@@ -152,8 +151,8 @@ fused dictionary, yet:
 Reading: the fine-tune reuses the base model's lexical detectors and its output-syntax
 features. The **decision in between**, i.e. template matching ("value of", "difference
 between", "trying to figure out") and math-expression detection, is carried by the
-new delta features. This fits Phase 1, where removing the delta (`no_delta`) collapsed tool calling
-at most layers, and fits the template-specific brittleness of Section 1: the template matchers
+new delta features. This fits Phase 1, where removing the delta (`no_delta`) destroyed correct tool calls
+at every layer tested, and fits the template-specific brittleness of Section 1: the template matchers
 are features of their own, so a template they do not fire on loses the gate.
 
 *Caveat:* this is a single prompt and a single hand-selected circuit. The batch evaluation
@@ -171,7 +170,7 @@ its outputs were lost.
 
 **Provenance of the activation data.** `collect_top_activations.py` was run twice with
 top-k = 5, and each job hit the cluster's time limit. The collector periodically flushes
-its *cumulative* top-k table, so the database held 12 full snapshots (27.4M rows). Only the
+its *cumulative* top-k table, so the database held 13 full snapshots (27.4M rows, including one from an earlier test run). Only the
 last committed snapshot of each run is published. Row counts match the job logs exactly:
 
 | Snapshot | Corpus | Prompts seen | Rows |

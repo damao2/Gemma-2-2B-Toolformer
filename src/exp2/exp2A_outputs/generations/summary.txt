@@ -1,171 +1,171 @@
 for layer 24
-1. 现在这份结果在说什么？（layer 24）
-从 exp2A_metrics_d128_p0.5.csv 看，每个 subset 的情况：
+1. What do these results say? (layer 24)
+From exp2A_metrics_d128_p0.5.csv, per subset:
 
-1.1 tool（分布内工具样本）
+1.1 tool (in-distribution tool prompts)
 tool, raw:     CE=4.88, tool_call=1.00, valid=1.00, math=1.00
 tool, full:    CE=7.31, tool_call=1.00, valid=1.00, math=1.00
 tool, no_delta:CE=9.59, tool_call=0.45, valid=0.45, math=0.45
-RAW：在这 20 条上，模型几乎完美使用 <tool_call>，格式和算术都对。
-FULL（base+delta）：
-cross‑entropy 明显变差（4.9 → 7.3），说明 SAE 近似在这一层引入了不小误差；
-但这批 in‑dist 工具样本上，工具调用行为没被破坏（3 个 rate 还是 1.0）。
-NO‑DELTA（只保留 base）：
-CE 进一步崩（9.6）；
-工具调用率 / 格式率 / 数学正确率都掉到 0.45。
-结论：delta 特征在这一层对“正确触发并使用 calculator 工具”非常关键。
-单用 base SAE 不够；fused SAE 至少在行为层面能维持分布内工具性能，但会整体抬高 CE。
-1.2 copy（负样本）
+RAW: on these 20 prompts the model uses <tool_call> almost perfectly; format and arithmetic are both correct.
+FULL (base+delta):
+cross-entropy is clearly worse (4.9 -> 7.3), so the SAE approximation introduces a sizeable error at this layer;
+but on these in-distribution tool prompts the tool-call behaviour is intact (all three rates stay at 1.0).
+NO-DELTA (base only):
+CE degrades further (9.6);
+tool-call / format / arithmetic rates all drop to 0.45.
+Conclusion: at this layer the delta features are essential for triggering and using the calculator tool correctly.
+The base SAE alone is not enough; the fused SAE at least preserves in-distribution tool behaviour, at the cost of a higher CE overall.
+1.2 copy (negative prompts)
 copy, raw:      CE=1.16, tool_call=0.0
 copy, full:     CE=1.99, tool_call=0.0
 copy, no_delta: CE=10.28, tool_call=0.0
-RAW：做纯 copy 很稳，loss 很低，当然不应该产生 <tool_call>，现在也是 0。
-FULL：CE 稍微变差（1.16 → 1.99），但仍然不乱触发工具（tool_call_rate 还是 0）。
-NO‑DELTA：CE 完全炸了（10+），但依然基本不乱触发 <tool_call>。
-结论：
-SAE 尤其是“只用 base”会整体损坏语言建模质量（即便是 copy 文本）；
-但至少在你这一层的设置下，不会在 copy 上大量幻觉 <tool_call>。
-1.3 tool_ood（分布外工具样本）
+RAW: copying is stable with very low loss, and it never produces <tool_call> (as it should not).
+FULL: CE is slightly worse (1.16 -> 1.99), but it still does not trigger the tool spuriously (tool_call_rate stays 0).
+NO-DELTA: CE blows up (10+), but it still essentially never emits <tool_call>.
+Conclusion:
+the SAE, especially base-only, damages language-modelling quality overall, even on copy text;
+but at least at this layer it does not hallucinate <tool_call> on copy prompts.
+1.3 tool_ood (out-of-distribution tool prompts)
 tool_ood, raw:      CE=3.03, tool_call=1.00, valid=0.40, math=0.35
 tool_ood, full:     CE=4.48, tool_call=0.70, valid=0.25, math=0.10
 tool_ood, no_delta: CE=8.87, tool_call=0.65, valid=0.15, math=0.05
-RAW：
-总是尝试用 <tool_call>（tool_call_rate=1.0）；
-但格式 / 算术在 OOD 上本来也一般（只有 40% / 35%）。
-FULL：
-CE 变差；
-工具调用概率从 1.0 掉到 0.7，格式 / 算术进一步退化。
-NO‑DELTA：
-CE 继续大幅变差；
-工具调用略低（0.65），格式和算术几乎崩到 0.15 / 0.05。
-结论：
-在 OOD 工具指令上，无论 full 还是 no_delta 都会削弱工具行为；
-delta 仍然比“只 base”好，但相比 RAW 明显拉胯；
-说明你训练的 delta 更偏向 in‑dist 分布，对 OOD 指令泛化有限。
-综合 layer 24 的结果：
+RAW:
+always attempts <tool_call> (tool_call_rate=1.0);
+but format and arithmetic are already mediocre on OOD (only 40% / 35%).
+FULL:
+CE is worse;
+tool-call probability drops from 1.0 to 0.7, and format / arithmetic degrade further.
+NO-DELTA:
+CE gets much worse;
+tool calls are slightly lower (0.65), and format and arithmetic nearly collapse to 0.15 / 0.05.
+Conclusion:
+on OOD tool instructions both full and no_delta weaken tool behaviour;
+delta is still better than base only, but clearly worse than RAW;
+the trained delta is biased towards the in-distribution prompts and generalises poorly to OOD instructions.
+Overall, at layer 24:
 
-base SAE 单独使用（no_delta）在所有 subset 上都把 CE 炸高，并严重破坏工具行为（尤其 in‑dist / OOD 工具）；
-加上 delta（full）可以：
-在 in‑dist 工具上恢复几乎完美的工具触发与算术；
-在 copy 上保持“不乱触发工具”，但 CE 会变差；
-在 OOD 工具上仍明显低于 RAW。
---------------––––––-------------
-1. 快速扫一眼：整体是否合理？
-按 subset 看几条典型模式：
+the base SAE alone (no_delta) blows up CE on every subset and badly damages tool behaviour (especially on in-distribution and OOD tool prompts);
+adding the delta (full):
+restores almost perfect tool triggering and arithmetic on in-distribution tool prompts;
+keeps copy prompts free of spurious tool calls, though CE gets worse;
+still falls clearly short of RAW on OOD tool prompts.
+---------------------------------
+1. Quick sanity check: is the overall picture plausible?
+Typical patterns per subset:
 
-tool（分布内）
-RAW：所有层上都 tool_call_rate=1.0, valid=1.0, math=1.0（在你这 20 条上本身就非常干净）。
-FULL：
-早中层（4,8,12）几乎不破坏工具行为（依然 1.0），CE 略有波动；
-高层（16,20,24,25）开始出现明显 trade‑off：CE 变高、tool_call_rate 下降（比如 20 层变成 0.7，25 层 0.85）。
-NO_DELTA：
-中高层大部分地方工具行为直接被砸没（16/20/12/… 上都是 0 或很低），CE 爆炸（10–20+）。
-→ 这一块非常符合预期：只用 base SAE 很伤工具行为，加上 delta 可以在很多层把工具部分拉回来，但仍然有性能代价。
+tool (in-distribution)
+RAW: tool_call_rate=1.0, valid=1.0, math=1.0 at every layer (these 20 prompts are very clean).
+FULL:
+early and middle layers (4, 8, 12) barely hurt tool behaviour (still 1.0), with small CE fluctuations;
+higher layers (16, 20, 24, 25) show a clear trade-off: higher CE and lower tool_call_rate (e.g. 0.7 at layer 20, 0.85 at layer 25).
+NO_DELTA:
+at most middle and high layers tool behaviour is wiped out (0 or very low at 16/20/12/...), and CE explodes (10-20+).
+-> This matches expectations: the base SAE alone badly hurts tool behaviour; adding the delta brings it back at many layers, with some performance cost.
 
-copy（负样本）
-RAW：所有层 tool_call_rate=0.0，很好。
-FULL：所有层基本还是 0，说明 full SAE 不会在 copy 上大规模乱触发 <tool_call>。
-NO_DELTA：
-多数层仍然是 0；
-只有一些早层有异常：
-layer 4: tool_call_rate=0.05（1/20 条产生过 <tool_call>）；
-layer 0: tool_call_rate=1.0, valid=1.0，CE=17.78，非常崩。
-→ 除了 layer 0 这个极端点外，其它层上的行为整体都 OK：no_delta 很伤 CE，但并没有系统性地导致 copy 子集乱用工具。
+copy (negative prompts)
+RAW: tool_call_rate=0.0 at every layer, as it should be.
+FULL: essentially 0 at every layer, so the full SAE does not cause widespread spurious <tool_call> on copy prompts.
+NO_DELTA:
+0 at most layers;
+anomalies only at some early layers:
+layer 4: tool_call_rate=0.05 (1 of 20 prompts produced <tool_call>);
+layer 0: tool_call_rate=1.0, valid=1.0, CE=17.78, a complete breakdown.
+-> Apart from the extreme case of layer 0, behaviour is fine overall: no_delta hurts CE badly but does not systematically make the copy subset call the tool.
 
-tool_ood（分布外）
-RAW：一致地 tool_call_rate=1.0, valid=0.4, math=0.35，即：
-总是尝试用 tool，但格式/算术在 OOD 样本上退化。
-FULL：
-CE 略波动（中高层变坏更明显）；
-大多数层 tool_call_rate 仍接近 1.0，只是在 20/24/25 层有下降（比如 20 层掉到 0.6）。
-NO_DELTA：
-CE 大多非常高（16–26）；
-高层 tool_call_rate 明显降低（例如 16/20/24/25 层：0, 0.15, 0.65, 0.5）；
-但在 layer 0 上还是 tool_call_rate=1.0, valid=1.0, math=0.0。
-→ 这里也看得出来：no_delta 在早层（特别是 0 层）有奇怪的“总是用工具”的趋势，而中高层时反而经常把工具行为抹掉。
+tool_ood (out-of-distribution)
+RAW: consistently tool_call_rate=1.0, valid=0.4, math=0.35, i.e.
+it always tries the tool, but format and arithmetic degrade on OOD prompts.
+FULL:
+CE fluctuates somewhat (worse at middle and high layers);
+tool_call_rate stays close to 1.0 at most layers and drops only at 20/24/25 (e.g. 0.6 at layer 20).
+NO_DELTA:
+CE is mostly very high (16-26);
+tool_call_rate drops clearly at high layers (e.g. layers 16/20/24/25: 0, 0.15, 0.65, 0.5);
+but at layer 0 it is still tool_call_rate=1.0, valid=1.0, math=0.0.
+-> no_delta shows an odd "always call the tool" tendency at early layers (especially layer 0), while at middle and high layers it often erases tool behaviour instead.
 
-2. 为什么 layer 0 的 no_delta 会出现 tool_call_rate=1.0，看起来“不合理”？
-关键行：
+2. Why does no_delta give tool_call_rate=1.0 at layer 0, which looks implausible?
+Key rows:
 
 0,copy,no_delta,...,tool_call_rate=1.0,valid=1.0
 0,tool,no_delta,...,tool_call_rate=1.0,valid=1.0,math=0.0
 0,tool_ood,no_delta,...,tool_call_rate=1.0,valid=1.0,math=0.0
-也就是说，在 layer 0：
+So at layer 0:
 
-no_delta 对 所有 subset 都产生了“总是输出一个看起来格式正确的 <tool_call>...”，
-但算术基本错光（math_correct_rate=0），
-CE 极高（26 左右）。
-这并不是 metric 逻辑上的 bug，而更像是：
+no_delta makes every subset "always output a well-formed-looking <tool_call>...",
+but the arithmetic is almost always wrong (math_correct_rate=0),
+and CE is extremely high (around 26).
+This is not a bug in the metric logic. It looks more like this:
 
-在第 0 层用 base SAE 近似 MLP 时，激活被严重畸变，导致后续网络进入“塌缩”状态：无论输入是什么，都朝着一个几乎固定的 tool 调用片段跑。
+approximating the layer-0 MLP with the base SAE distorts the activations so badly that the rest of the network collapses: whatever the input, it heads towards an almost fixed tool-call snippet.
 
-这在行为上当然“很不合理”，但在数学上是完全可能的：
+Behaviourally this is "implausible", but mathematically it is entirely possible:
 
-第 0 层的 MLP 相当早，干预它非常危险；
-你用的是 Gemma‑Scope 在基础模型上训练的 SAE，而你现在是套在 finetuned 模型上；
-在第 0 层，这种失配可能最严重；
-base SAE 自身就不是“精确等价变换”，而是 L1 稀疏重建，会有投影误差；
-在早层插一个粗糙近似，很容易把后续所有 token 的表示弄到一个狭窄区域；
-对 decoder 来说就像“所有 prompt 都长得差不多”，于是总走某个高概率 tool 模式。
-这一点从 CE 也看得出来：layer 0 no_delta 的 CE 对所有 subset 都是 17–26 级别，是彻底炸裂，不是“轻微影响”。
+layer 0 is very early, and intervening on it is very risky;
+the SAE is Gemma-Scope's, trained on the base model, but here it is applied to the fine-tuned model;
+the mismatch may be worst at layer 0;
+the base SAE is not an exact equivalent transformation but an L1-sparse reconstruction, with projection error;
+inserting a coarse approximation at an early layer easily squeezes the representations of all later tokens into a narrow region;
+to the decoder, all prompts then "look alike", so it always takes some high-probability tool pattern.
+CE confirms this: layer 0 no_delta has CE of 17-26 on every subset, a total breakdown rather than a "slight effect".
 
-所以：
+So:
 
-tool_call_rate=1.0 本身不是 metric 写错，而是模型在这个极端干预下已经“行为塌缩”了；
-这反而是一个有趣的负面结果，可以在写作里当作 evidence：
-“直接在早层用 base SAE 近似是非常危险的，它不光整体损害 loss，还会在负样本上系统性幻觉工具调用。”
-3. 有没有迹象说明 metric 实现错了？
-从多层交叉对比看，metric 实现是自洽的：
+tool_call_rate=1.0 is not a metric error; the model's behaviour has collapsed under this extreme intervention;
+it is in fact an interesting negative result that can be used as evidence in the write-up:
+"Approximating an early layer directly with the base SAE is very dangerous: it not only hurts the loss overall, but also makes the model systematically hallucinate tool calls on negative prompts."
+3. Any sign that the metrics are implemented wrongly?
+Cross-checking several layers, the metric implementation is self-consistent:
 
-不同层同 subset 下，raw 一致，full/no_delta 不一致
+within a subset, raw is identical across layers while full/no_delta are not
 
-例如 tool, raw 的一行，在所有层上的指标都是同一组值（1.0/1.0/1.0）——合理，因为 raw 是同一个模型，不依赖层。
+e.g. the tool, raw row has the same values at every layer (1.0/1.0/1.0), which is correct because raw is the same model and does not depend on the layer.
 
-而 tool, full / tool, no_delta 则随层变化显著。这说明 hook 确实在起作用，不是我们忘了挂。
+tool, full and tool, no_delta vary strongly with the layer, so the hooks are really applied.
 
-同一层内，full vs no_delta 差异方向符合直觉
+within a layer, the full vs no_delta difference goes in the expected direction
 
-例如 layer 20：
+e.g. layer 20:
 
-tool：
+tool:
 full: tool_call_rate=0.7, math=0.7
 no_delta: tool_call_rate=0.15, math=0.15
-copy：
-两者的 tool_call_rate 都是 0；
-tool_ood：
+copy:
+tool_call_rate is 0 for both;
+tool_ood:
 full: tool_call_rate=0.6, math=0.0
 no_delta: tool_call_rate=0.15, math=0.1
-这和我们对“delta 拯救工具行为、base 单独很差”的预期一致。
+This matches the expectation that "delta rescues tool behaviour, base alone is poor".
 
-mean_abs_base_acts / mean_abs_delta_acts 随层、subset 变化合理
+mean_abs_base_acts / mean_abs_delta_acts vary plausibly with layer and subset
 
-早层（0–12）数值在 20–50 左右；
-高层（24–25）暴涨到 400–600；
-delta 在 tool/tool_ood 上往往比 copy 更大；
-full vs no_delta 这两个值很接近，说明统计方式一致。
-综合这些，没有看到明显“指标算错、条件搞反”的迹象。奇怪的是模型在某些极端干预下的行为（特别是 layer 0 no_delta），而不是代码。
+early layers (0-12) are around 20-50;
+high layers (24-25) jump to 400-600;
+delta is often larger on tool/tool_ood than on copy;
+full and no_delta give very similar values, so the statistics are computed consistently.
+Overall, there is no obvious sign of miscomputed metrics or swapped conditions. What is odd is the model's behaviour under some extreme interventions (especially layer 0 no_delta), not the code.
 
-4. 怎么在分析里处理这些“怪点”？
-建议：
+4. How to handle these anomalies in the analysis?
+Suggestions:
 
-直接把 layer 0（甚至 layer 4）标记为“灾难层”或 outlier，不纳入主要结论：
+mark layer 0 (and possibly layer 4) as "catastrophic" outlier layers and keep them out of the main conclusions:
 
-可以在图里灰掉或不画 0 层；
-在正文里说明：早层的 SAE 近似严重破坏了所有子任务，包括让 copy 子集 100% 误用 tool，这说明“对早层做这种近似是非常危险的”，但不代表 delta 微调本身的失败。
-把重点放在 中高层（8,12,16,20,24,25） 的模式：
+grey them out or omit layer 0 in the plots;
+explain in the text that the SAE approximation at early layers breaks every sub-task, including making the copy subset misuse the tool 100% of the time; this shows that such an approximation at early layers is very dangerous, but it is not a failure of delta fine-tuning itself.
+focus on the patterns at middle and high layers (8, 12, 16, 20, 24, 25):
 
-no_delta CE 持续偏高；
-tool/tool_ood 上 tool_call_rate 和 math_correct_rate 明显低于 raw；
-full 在许多层可以明显拉回工具行为，尤其是 8/12/16/24。
-这些才是回答你两个研究问题的主干证据。
-如果你担心“layer 0 no_delta 总是 <tool_call>”太怪，可以从 JSONL 里随机看几条：
+no_delta CE stays high;
+on tool/tool_ood, tool_call_rate and math_correct_rate are clearly below raw;
+full clearly restores tool behaviour at many layers, especially 8/12/16/24.
+These form the main evidence for the two research questions.
+To check that "layer 0 no_delta always emits <tool_call>" is real, inspect a few random lines of:
 
 exp2A_outputs/generations/layer_0_copy_no_delta.jsonl
 exp2A_outputs/generations/layer_0_tool_no_delta.jsonl
-肉眼确认确实是“所有 prompt 都被生成成一个类似的 <tool_call>…”。这反而可以当成一张 qualitative 例子放到 appendix 里，展示 base SAE 在早层的灾难性偏差。
+and confirm by eye that every prompt is turned into a similar <tool_call>... This can even serve as a qualitative example in an appendix, showing the catastrophic bias of the base SAE at early layers.
 
-总结一句答复你的疑问
-no_delta 出现 tool_call_rate=1.0（尤其是在 layer 0，所有 subset 上）在行为上很不合理，但在这套干预下是完全可能的：
-表明 base SAE 在第 0 层的近似把网络推到了一个几乎固定的“always call tool”吸引子；
-这不是 metric 的 bug，而是一个需要在分析里单独标注、当作“早层 SAE 极端失败”的负面结果；
-主体结论和“delta 是否有用、是否更可解释”的部分，应该基于中高层的数据来讨论。
+In one sentence
+no_delta giving tool_call_rate=1.0 (especially at layer 0, on every subset) is behaviourally implausible but entirely possible under this intervention:
+it shows that the base SAE approximation at layer 0 pushes the network into an almost fixed "always call the tool" attractor;
+this is not a metric bug but a negative result to be reported separately as an "extreme early-layer SAE failure";
+the main conclusions, including whether the delta is useful and more interpretable, should rest on the middle and high layers.

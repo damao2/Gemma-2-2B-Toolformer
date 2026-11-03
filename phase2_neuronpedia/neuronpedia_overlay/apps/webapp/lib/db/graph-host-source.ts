@@ -15,7 +15,7 @@ export const getSourceSetGraphHosts = async (
   sourceSetName: string,
   user: AuthenticatedUser | null = null,
 ) => {
-  // 本地模型专用兜底：直接指向本地 graph server
+  // Fallback for local models: point straight at the local graph server
   if (modelId === 'local-gemma-2b-toolformer' && sourceSetName === 'toolformer-fused') {
     return [
       {

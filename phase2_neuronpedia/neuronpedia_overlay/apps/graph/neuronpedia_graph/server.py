@@ -169,7 +169,7 @@ if isinstance(device, torch.device) and device.type == "cpu" and model_dtype in 
 #     return hf_model, hf_tokenizer
 
 def _load_local_hf_components(local_path: str, dtype: torch.dtype | None):
-    # 强制只从本地目录加载，不允许任何远程访问/仓库校验
+    # Force loading from the local directory only: no remote access or repo validation
     local_path_expanded = os.path.expanduser(os.path.expandvars(local_path))
 
     from_pretrained_kwargs = {
@@ -179,9 +179,9 @@ def _load_local_hf_components(local_path: str, dtype: torch.dtype | None):
     if dtype is not None:
         from_pretrained_kwargs["torch_dtype"] = dtype
 
-    # 避免 HF Hub 把本地路径当成 repo id 校验：
-    # 1）如果目录下有 config.json，就直接传绝对路径
-    # 2）如果目录下有 .git 或 .huggingface，仍然按本地路径处理
+    # Keep the HF Hub from validating a local path as a repo id:
+    # 1) if the directory contains config.json, pass its absolute path
+    # 2) if it contains .git or .huggingface, still treat it as a local path
     if not os.path.isdir(local_path_expanded):
         raise ValueError(f"Local model path does not exist or is not a directory: {local_path_expanded}")
 
@@ -192,7 +192,7 @@ def _load_local_hf_components(local_path: str, dtype: torch.dtype | None):
             "please make sure this is a valid HF-format model directory."
         )
 
-    # 这里用绝对路径，local_files_only=True，避免 hub 校验
+    # Absolute path with local_files_only=True to skip hub validation
     hf_model = AutoModelForCausalLM.from_pretrained(local_path_expanded, **from_pretrained_kwargs)
     hf_tokenizer = AutoTokenizer.from_pretrained(
         local_path_expanded,

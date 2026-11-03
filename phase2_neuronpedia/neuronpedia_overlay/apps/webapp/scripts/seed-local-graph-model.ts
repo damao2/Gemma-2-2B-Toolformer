@@ -6,11 +6,11 @@ const prisma = new PrismaClient();
 async function main() {
   const modelId = 'local-gemma-2b-toolformer';
   const sourceSetName = 'toolformer-fused';
-  const layers = 26; // 按你的实际层数改
+  const layers = 26; // set to the model's number of layers
 
   console.log(`Seeding model ${modelId} with ${layers} layers...`);
 
-  // 0. 创建或获取一个本地用户，用作 creatorId
+  // 0. Create or fetch a local user to use as creatorId
   const localUser = await prisma.user.upsert({
     where: { id: 'local-user-id' },
     update: {},
@@ -25,7 +25,7 @@ async function main() {
 
   const LOCAL_CREATOR_ID = localUser.id;
 
-  // 1. 创建或获取 Model
+  // 1. Create or fetch the Model
   const model = await prisma.model.upsert({
     where: { id: modelId },
     update: {},
@@ -43,7 +43,7 @@ async function main() {
 
   console.log('Model upserted:', model.id);
 
-  // 2. 创建或获取 SourceSet
+  // 2. Create or fetch the SourceSet
   const sourceSet = await prisma.sourceSet.upsert({
     where: {
       modelId_name: {
@@ -65,7 +65,7 @@ async function main() {
 
   console.log('SourceSet upserted:', sourceSet.name);
 
-  // 3. 为每一层创建 Source（0..layers-1）
+  // 3. Create one Source per layer (0..layers-1)
   const sourcesPromises: Promise<any>[] = [];
   for (let layer = 0; layer < layers; layer += 1) {
     const sourceId = `${layer}-${sourceSetName}`;

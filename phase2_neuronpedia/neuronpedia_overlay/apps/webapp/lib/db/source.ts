@@ -294,7 +294,7 @@ export const getGlobalSourceReleases = async (user?: AuthenticatedUser | null) =
     return releases;
   } catch (e) {
     console.error('getGlobalSourceReleases failed, returning empty list:', e);
-    // 对你的本地 graph 使用场景：没有这些 release 也没关系
+    // Local graph use does not need these releases
     return [];
   }
 };

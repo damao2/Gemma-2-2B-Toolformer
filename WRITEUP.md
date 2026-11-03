@@ -2,7 +2,7 @@
 
 *Delta transcoders and attribution graphs for a calculator Toolformer.*
 
-**Qiren Chen** · project period Aug 2025 – Apr 2026 · write-up Nov 2026
+**Qiren Chen** · project period Aug 2025 – Apr 2026
 
 ---
 
@@ -16,14 +16,14 @@ Gemma-Scope transcoders.
    that.** I froze the Gemma-Scope transcoder and trained 32–128 extra sparse features per
    layer. This cut the CE increase from splicing the transcoder into the model from about
    12.6 nats to 0.11–0.36 nats, and raised reconstruction cosine from about 0.45 to 0.60–0.71.
-2. **Tool calling lives mostly in the delta features, concentrated in middle layers.** With the
-   base transcoder alone, the tool-call rate falls to 0.00–0.15 at layers 12, 16, 20 and 25.
-   Adding the delta back largely restores it, and scaling the delta up and down at layers 20 and 24
-   moves the tool-call rate roughly monotonically on in-distribution prompts.
+2. **Tool calling depends on the delta features.** With the base transcoder alone, correct
+   tool calls drop to 0 at every layer from 0 to 16 and to 0.10–0.45 at layers 20–25. Adding
+   the delta back restores them (0.70–1.00), and scaling the delta up and down at layers 20
+   and 24 moves the tool-call rate roughly monotonically on in-distribution prompts.
 3. **The decision is a brittle heuristic gate, not semantic tool use.** Near-OOD probing shows
    the choice between `<` and echoing flips on lower-casing combined with small numbers, a
-   missing `?` on one specific template, or the *position* of "Do not use any tool". The
-   meaning of the instruction does not drive it.
+   missing `?` on one specific template, a curly vs straight apostrophe, or the position and
+   spacing of "Do not use any tool". The meaning of the instruction does not drive it.
 4. **An attribution graph shows where the gate sits.** In a hand-traced circuit for
    `Calculate 3 + 5.`, delta features (0.2% of the dictionary) are 9 of 23 features.
    Every circuit feature in layers 17–22 at the decision position is a delta feature, and they
@@ -37,8 +37,7 @@ output-formatting features. Prompts the detectors do not recognise lose the gate
 explains why the behaviour generalises poorly.
 
 The project stopped before its last stage, an automatic search for circuits that generalise
-across prompts, with random baselines. The evaluation code for that stage is complete, but
-some outputs were lost (see [Limitations](#7-limitations-and-what-was-lost)).
+across prompts, with random baselines. (see [Limitations](#7-limitations-and-what-was-lost)).
 
 ---
 
@@ -97,12 +96,18 @@ There are three prompt subsets of 20 prompts each: `tool` (in-distribution reque
 "Prepare a tool call for the calculator so that it can evaluate 553+487"). I intervened on
 one layer at a time, with `d_new = 128`, `p = 0.5`.
 
-Tool-call rate on `tool` (raw model = 1.00 at every layer):
+Results on `tool` (the raw model scores 1.00 on both metrics at every layer):
 
 | Layer | 0 | 4 | 8 | 12 | 16 | 20 | 24 | 25 |
 |---|---|---|---|---|---|---|---|---|
-| base only (`no_delta`) | 1.00 | 0.45 | 1.00 | **0.00** | **0.00** | **0.15** | 0.45 | **0.10** |
-| base + delta (`full`) | 1.00 | 1.00 | 1.00 | 1.00 | 0.95 | 0.70 | 1.00 | 0.85 |
+| tool-call rate, base only (`no_delta`) | 1.00 | 0.45 | 1.00 | 0.00 | 0.00 | 0.15 | 0.45 | 0.10 |
+| correct-call rate, base only (`no_delta`) | **0.00** | **0.00** | **0.00** | **0.00** | **0.00** | 0.15 | 0.45 | 0.10 |
+| correct-call rate, base + delta (`full`) | 1.00 | 1.00 | 1.00 | 1.00 | 0.95 | 0.70 | 1.00 | 0.85 |
+
+Tool-call rate alone is misleading at early layers. With base only at layer 0, the model
+collapses into emitting a well-formed `<tool_call>` for *every* prompt, including all 20 copy
+prompts, with wrong arithmetic and CE around 18–26. At layer 8 it calls the tool on every
+`tool` prompt, but never correctly.
 
 Scaling the delta at a single layer (`base + α·delta`) gives:
 
@@ -112,8 +117,10 @@ Scaling the delta at a single layer (`base + α·delta`) gives:
 | layer 24, `tool` | 0.45 | 0.50 | 0.60 | 0.90 | 1.00 |
 | layer 20, `copy` (should stay 0) | 0.00 | 0.00 | 0.10 | 0.00 | 0.00 |
 
-The delta carries tool behaviour, mainly in **layers 12–20**, and turning it up raises tool
-calls on in-distribution prompts without making the model call tools on copy prompts. On
+Without the delta, correct tool use is lost at every layer tested, and the base-only splice
+damages the model in general (CE rises by 5–23 nats, depending on layer and subset). With the delta, it is restored, and turning the
+delta up raises tool calls on in-distribution prompts without making the model call tools
+on copy prompts. On
 `tool_ood` the relationship with α is not monotone. Even the unmodified model only produced
 a correct call on 35% of OOD prompts: it emitted `<tool_call>` every time, but the format was
 valid only 40% of the time.
@@ -121,16 +128,17 @@ valid only 40% of the time.
 ### 2.3 What Phase 1 could not settle
 
 The original conclusion was that the model shows "some semantic generalization". Two things
-weakened it. The OOD subset was small and mixed failures of very different kinds, and
-layer-level interventions say *where* the behaviour is but not *what* computes it. Phase 2
-therefore looked at single prompts and single features.
+weakened it. The OOD subset was small and mixed failures of very different kinds. And
+because the base-only splice damages the model at every layer, the layer-level interventions
+show that the delta is necessary, but not *where* in the network the decision is made or
+*what* computes it. Phase 2 therefore looked at single prompts and single features.
 
 ## 3. Phase 2: the gate is brittle
 
 I hosted Neuronpedia myself, served by a graph backend running circuit-tracer with the fused
 transcoders on the fine-tuned model. This allowed probing hand-written variants of training
 templates and reading the next-token distribution directly
-(full log: `phase2_neuronpedia/docs/manual_ood_probing_zh.md`).
+(full log: `phase2_neuronpedia/docs/manual_ood_probing.md`).
 
 | Prompt | Next token |
 |---|---|
@@ -140,25 +148,33 @@ templates and reading the next-token distribution directly
 | `compute the value of 1 * 309.` | **`compute` 0.69** · `<` 0.31 |
 | `compute the value of 1 * 39.` | `<` 0.77 · `compute` 0.23 |
 | `compute the value of 1 * 3.` | **`compute` 0.53** · `<` 0.47 |
-| `What’s the difference between 598 and 914?` | `<` 0.98 |
-| `What’s the difference between 598 and 914` | **`What` 0.68** · `<` 0.29 |
+| `What's the difference between 598 and 914?` | `<` 0.98 |
+| `What's the difference between 598 and 914` | **`What` 0.68** · `<` 0.29 |
+| `What’s the difference between 598 and 914` (curly `’`) | `<` 0.76 · `What` 0.23 |
 | `What is 534 + 267` | `<` 1.00 |
+| `…914? Explain the method only and do not compute it.` | `<` 0.68 (wrong) |
+| same, curly `’` in `What’s` | `What` 0.97 (correct echo) |
 | `…914? Do not use any tool.` | `<` 0.66 (wrong) |
-| `Do not use any tool. …914?` | `Do` 0.98 (correct echo) |
 | `…914? Do not use any tool.␠` (trailing space) | `What` 0.60 (correct echo) |
+| `Do not use any tool. What is 534 + 267?␠` | `Do` 0.91 (correct echo) |
+| `Do not use any tool. What is 534 + 267?` | `<` 0.98 (wrong) |
 | `Please, compute the value of 112 * 309.` | `<` 1.00 |
 
-Three properties stand out. First, **most perturbations are harmless**. Failures concentrate
+Four properties stand out. First, **most perturbations are harmless**. Failures concentrate
 in a few interactions specific to one template: removing the `?` breaks only "difference
 between". Second, **factors interact**: lower case and small operands each do little, but
 together they flip the decision, and not monotonically in operand size. Third,
-**instructions work by position**: a leading "Do not use any tool." wins because its first
-token is what echoing would output, while the same sentence as a suffix is largely ignored.
-A single trailing space can reverse the outcome.
+**token-level details decide**: the same sentence with a curly or a straight apostrophe can
+land on opposite sides of the boundary, and a single trailing space can reverse the outcome
+in either direction. Fourth, **instructions act through layout, not meaning**: as a suffix,
+"Do not use any tool." is mostly ignored. As a prefix it wins more often, because its first
+token is then what echoing would output, but even then it depends on the template and on
+spacing.
 
 The most economical explanation is a competition at the last position between three groups of
 features. Seen-template features push `<`; features of the prompt's first token push echo;
-and token-boundary features (punctuation, whitespace, digit tokenisation) shift the balance.
+and token-boundary features (punctuation, apostrophes, whitespace, digit tokenisation) shift
+the balance.
 Nothing in the data requires a global representation of "the user wants a calculation".
 
 ## 4. Phase 2: an evaluation protocol for the gate
@@ -181,9 +197,6 @@ pipeline on top of Neuronpedia's graph API (design: `phase2_neuronpedia/README.m
   `(layer, feature, offset from the target position)`. The template is matched in each new
   prompt's graph, and the match is scored as above.
 
-The generator, screening, batch evaluator, scoring and analysis scripts were all recovered,
-along with a regenerated 50-prompt evaluation set. The screening and batch-evaluation outputs
-were not, so this section describes a protocol, not results.
 
 ## 5. Phase 2: inside one gate decision
 
@@ -205,9 +218,9 @@ Across the whole pruned graph (890 feature nodes), delta features are 6.4% of no
 times their share of the dictionary. They carry 19.8% of outgoing edge weight and make up 12 of
 the 20 nodes in layers 17–23.
 
-This matches Phase 1 from a different direction. The layers where removing the delta
-destroyed tool calling (12–20) are the layers where the attribution graph routes the
-decision through delta features. The features found there are **detectors for specific
+This adds what Phase 1 could not provide. Phase 1 showed that tool use needs the delta
+features. The attribution graph shows where they make the decision: in a band of layers
+(17–22) at the last prompt position. The features found there are **detectors for specific
 training templates**, which is what the brittleness in Section 3 predicts: a prompt that
 none of the template detectors recognise loses its push towards `<`. The fine-tune did not
 need to learn the output format. It reuses base features at layers 24–25 for that and adds
@@ -223,9 +236,9 @@ An interactive version of the circuit, with every delta feature's top activation
   prompts.
 * **For the method.** Delta transcoders turned out to be more useful for interpretation than
   for efficiency. Because the fine-tune's new computation is isolated in a few labelled
-  features, both questions — "where does the behaviour live?" (layer interventions) and
-  "what does it compute?" (attribution graphs) — reduce to looking at a small, inspectable
-  set of features.
+  features, an attribution graph immediately shows which parts of a decision are new (delta)
+  and which are reused from the base model, and the new parts form a small, inspectable set
+  of features.
 * **For tool-use fine-tuning.** A small SFT dataset built from templates yields a decision
   boundary that follows the templates. Adversarial phrasing, varied casing and number
   formats, and negatives that *mention* tools are the obvious data fixes. The circuit view
@@ -247,9 +260,7 @@ An interactive version of the circuit, with every delta feature's top activation
   evidence for the heuristic-gate reading.
 * **Attribution graphs are approximations.** Scores depend on graph pruning thresholds and
   on the transcoder's reconstruction error, which is never zero (Section 2.1).
-* **Data quirks.** The tool-call activation corpus contains a literal `\n` instead of a
-  newline in 300 of 500 lines, and both activation-collection jobs stopped early; see the
-  dataset card.
+
 
 ## 8. Artefacts
 

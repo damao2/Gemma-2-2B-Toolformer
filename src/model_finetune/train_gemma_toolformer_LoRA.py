@@ -99,7 +99,7 @@ class CustomDataCollator(DataCollatorForLanguageModeling):
              # 2. Get the real ID of this token from input_ids
             last_token_id = batch["input_ids"][i, last_token_idx]
             if labels_field[i] == "positive":
-                #Let <tool_call>... <eos> section is involved in the loss， but not the input
+                # The <tool_call>... <eos> span contributes to the loss, the input does not
                 mask_len = source_lens[i] + separator_len
                 labels[i, :mask_len] = -100
                 if last_token_id == self.tokenizer.eos_token_id:

@@ -466,7 +466,6 @@ def main() -> None:
 if __name__ == "__main__":
   main()
 '''
-# 1. 启动本地 Postgres（只要这一条）
 cd /usr/project/xtmp/qc62
 ./local/pgsql/bin/pg_ctl -D local/pgdata -l local/pg.log start -o "-p 5433"
 

@@ -189,23 +189,23 @@ if __name__ == "__main__":
     with open(OUTPUT_POSITIVE_JSONL, "w") as f:
         for item in pos_samples:
             f.write(json.dumps(item) + "\n")
-    print(f"Positive samples saved to：{OUTPUT_POSITIVE_JSONL}")
+    print(f"Positive samples saved to: {OUTPUT_POSITIVE_JSONL}")
 
     neg_samples = sample_negative_from_c4(NUM_NEGATIVE, c4_split=C4_SPLIT)
     with open(OUTPUT_NEGATIVE_JSONL, "w") as f:
         for item in neg_samples:
             f.write(json.dumps(item) + "\n")
-    print(f"Negative samples saved to：{OUTPUT_NEGATIVE_JSONL}")
+    print(f"Negative samples saved to: {OUTPUT_NEGATIVE_JSONL}")
 
     ood_samples = generate_ood_tool_samples(NUM_OOD)
     with open(OUTPUT_OOD_JSONL, "w") as f:
         for item in ood_samples:
             f.write(json.dumps(item) + "\n")
-    print(f"OOD tool samples saved to：{OUTPUT_OOD_JSONL}")
+    print(f"OOD tool samples saved to: {OUTPUT_OOD_JSONL}")
 
     combined = pos_samples + neg_samples + ood_samples
     random.shuffle(combined)
     with open(OUTPUT_COMBINED_JSONL, "w") as f:
         for item in combined:
             f.write(json.dumps(item) + "\n")
-    print(f"Combined samples saved to：{OUTPUT_COMBINED_JSONL}")
+    print(f"Combined samples saved to: {OUTPUT_COMBINED_JSONL}")

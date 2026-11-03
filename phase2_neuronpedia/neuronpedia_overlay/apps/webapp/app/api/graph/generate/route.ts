@@ -311,7 +311,7 @@ export const POST = withOptionalUser(async (request: RequestOptionalUser) => {
     console.log('valid graph');
 
 
-    // ===== 新增：本地保存 graph JSON 到 public/local-graphs =====
+    // ===== Added: save the graph JSON locally under public/local-graphs =====
     const publicDir = path.join(process.cwd(), 'public', 'local-graphs');
     await fs.mkdir(publicDir, { recursive: true });
 
@@ -319,7 +319,7 @@ export const POST = withOptionalUser(async (request: RequestOptionalUser) => {
     const filePath = path.join(publicDir, fileName);
     await fs.writeFile(filePath, JSON.stringify(graph));
 
-    // 这是前端可访问的静态 URL
+    // Static URL served to the frontend
     const localUrl = `/local-graphs/${fileName}`;
     console.log(`Graph saved locally at: ${filePath}, accessible at URL: ${localUrl}`);
     // save it to the database
