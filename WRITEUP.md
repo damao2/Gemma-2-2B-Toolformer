@@ -227,7 +227,7 @@ need to learn the output format. It reuses base features at layers 24–25 for t
 a recogniser in front of them.
 
 An interactive version of the circuit, with every delta feature's top activations, is at
-[`docs/circuit-viewer/`](docs/circuit-viewer/).
+[`https://damao2.github.io/Gemma-2-2B-Toolformer/circuit-viewer/`](https://damao2.github.io/Gemma-2-2B-Toolformer/circuit-viewer/).
 
 ## 6. What this means
 
