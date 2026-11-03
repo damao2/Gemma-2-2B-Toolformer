@@ -1,0 +1,500 @@
+While budgeting my expenses, I got stuck. What is 817 + 340?\n<tool_call>calculator(817+340)</tool_call>
+In the documentation, there's an example like <tool_call>calculator(140+566)</tool_call>. Describe what this example is doing.
+In this system, the assistant has access to tools such as a calculator. Explain what the calculator tool is for.
+I'm trying to figure out 663 / 712.\n<tool_call>calculator(663/712)</tool_call>
+Tell me the answer to 954 + 306.\n<tool_call>calculator(954+306)</tool_call>
+Here's a math problem for you. Run the numbers for 399 / 934.\n<tool_call>calculator(399/934)</tool_call>
+I need help with this calculation. The bill was split 345 ways. The total was 63. Please compute 63 / 345 to see what each person owes.\n<tool_call>calculator(63/345)</tool_call>
+What's the difference between 57 and 182?\n<tool_call>calculator(57-182)</tool_call>
+Tell me the answer to 387 - 766.\n<tool_call>calculator(387-766)</tool_call>
+This is a quick math exercise. Do the math for 176 * 364.\n<tool_call>calculator(176*364)</tool_call>
+Do the math for 874 * 810.\n<tool_call>calculator(874*810)</tool_call>
+What's the total of 680 and 262?\n<tool_call>calculator(680+262)</tool_call>
+I need help with this calculation. I'm trying to figure out 10 + 312.\n<tool_call>calculator(10+312)</tool_call>
+While budgeting my expenses, I got stuck. What is 847 - 900?\n<tool_call>calculator(847-900)</tool_call>
+Here's a math problem for you. Run the numbers for 81 + 490.\n<tool_call>calculator(81+490)</tool_call>
+While budgeting my expenses, I got stuck. My homework asks for the value of 753 + 57.\n<tool_call>calculator(753+57)</tool_call>
+Let's find out what 618 + 38 equals.\n<tool_call>calculator(618+38)</tool_call>
+Let's find out what 109 / 636 equals.\n<tool_call>calculator(109/636)</tool_call>
+In the documentation, there's an example like <tool_call>calculator(876-464)</tool_call>. Describe what this example is doing.
+I need help with this calculation. Give me the result of 335 - 552.\n<tool_call>calculator(335-552)</tool_call>
+You can use a calculator tool to solve expressions like 714+787, but for now just explain the reasoning in words.
+This is a quick math exercise. Please compute the result of 68 over 384.\n<tool_call>calculator(68/384)</tool_call>
+I'm trying to figure out 777 / 915.\n<tool_call>calculator(777/915)</tool_call>
+If you add 556 and 864, what do you get?\n<tool_call>calculator(556+864)</tool_call>
+Describe how a calculator tool might evaluate an expression such as 9/709, without giving the final numeric answer.
+This is a quick math exercise. To find the area of the rectangle, I need to multiply its sides. Calculate 311 * 727 for me.\n<tool_call>calculator(311*727)</tool_call>
+I need help with this calculation. If you take 233 away from 784, what do you get?\n<tool_call>calculator(784-233)</tool_call>
+Here's a math problem for you. Do the math for 94 * 764.\n<tool_call>calculator(94*764)</tool_call>
+Consider the literal text '<tool_call>calculator(362*591)</tool_call>'. Explain when a system might output this, but don't perform the calculation.
+I'm helping my brother learn math. Tell me the answer to 849 + 523.\n<tool_call>calculator(849+523)</tool_call>
+You can use a calculator tool to solve expressions like 923+21, but for now just explain the reasoning in words.
+What is 355 divided by 857?\n<tool_call>calculator(355/857)</tool_call>
+I'm helping my brother learn math. Let's find out what 861 * 658 equals.\n<tool_call>calculator(861*658)</tool_call>
+Consider the literal text '<tool_call>calculator(641-138)</tool_call>'. Explain when a system might output this, but don't perform the calculation.
+I need to know the answer to 992 + 590.\n<tool_call>calculator(992+590)</tool_call>
+While budgeting my expenses, I got stuck. Run the numbers for 849 / 858.\n<tool_call>calculator(849/858)</tool_call>
+Explain to a student how they could double-check their work on 555+823 using a calculator, but do not actually compute it.
+Compute the value of 486 * 824.\n<tool_call>calculator(486*824)</tool_call>
+I'm helping my brother learn math. Please compute the result of 542 over 467.\n<tool_call>calculator(542/467)</tool_call>
+Please compute the result of 946 over 738.\n<tool_call>calculator(946/738)</tool_call>
+How much is 596 plus 387?\n<tool_call>calculator(596+387)</tool_call>
+Write a short paragraph about when it is appropriate to use a calculator tool instead of doing mental math.
+I saw the string <tool_call>calculator(925-586)</tool_call> in some logs. What does it mean, in plain English?
+I'm helping my brother learn math. I'm stuck on this calculation: 917 + 822.\n<tool_call>calculator(917+822)</tool_call>
+While budgeting my expenses, I got stuck. Please compute the result of 648 over 289.\n<tool_call>calculator(648/289)</tool_call>
+What's the product of 625 and 138?\n<tool_call>calculator(625*138)</tool_call>
+I need help with this calculation. The bill was split 863 ways. The total was 312. Please compute 312 / 863 to see what each person owes.\n<tool_call>calculator(312/863)</tool_call>
+This is a quick math exercise. Do the math for 374 / 781.\n<tool_call>calculator(374/781)</tool_call>
+Here's a math problem for you. I'd like to know the result of 39 - 680.\n<tool_call>calculator(39-680)</tool_call>
+In this system, the assistant has access to tools such as a calculator. Explain what the calculator tool is for.
+List some situations where a calculator is useful, and some where using a tool would be unnecessary.
+Please *do not* actually run <tool_call>calculator(81-709)</tool_call>; just explain what this notation represents.
+Compute the value of 464 / 686.\n<tool_call>calculator(464/686)</tool_call>
+Please *do not* actually run <tool_call>calculator(146+441)</tool_call>; just explain what this notation represents.
+List some situations where a calculator is useful, and some where using a tool would be unnecessary.
+List some situations where a calculator is useful, and some where using a tool would be unnecessary.
+This is a quick math exercise. I'm trying to figure out 306 / 953.\n<tool_call>calculator(306/953)</tool_call>
+Here's a math problem for you. Tell me the answer to 726 - 104.\n<tool_call>calculator(726-104)</tool_call>
+If you add 646 and 205, what do you get?\n<tool_call>calculator(646+205)</tool_call>
+List some situations where a calculator is useful, and some where using a tool would be unnecessary.
+I need to know the answer to 845 / 173.\n<tool_call>calculator(845/173)</tool_call>
+In the documentation, there's an example like <tool_call>calculator(114-101)</tool_call>. Describe what this example is doing.
+This is a quick math exercise. Give me the result of 426 + 568.\n<tool_call>calculator(426+568)</tool_call>
+Give me the result of 587 / 374.\n<tool_call>calculator(587/374)</tool_call>
+Solve for 728 - 669.\n<tool_call>calculator(728-669)</tool_call>
+Write a short paragraph about when it is appropriate to use a calculator tool instead of doing mental math.
+I saw the string <tool_call>calculator(540*511)</tool_call> in some logs. What does it mean, in plain English?
+In the documentation, there's an example like <tool_call>calculator(423-307)</tool_call>. Describe what this example is doing.
+While budgeting my expenses, I got stuck. Let's find out what 869 / 671 equals.\n<tool_call>calculator(869/671)</tool_call>
+In this system, the assistant has access to tools such as a calculator. Explain what the calculator tool is for.
+While budgeting my expenses, I got stuck. I'd like to know the result of 997 + 745.\n<tool_call>calculator(997+745)</tool_call>
+I saw the string <tool_call>calculator(135/705)</tool_call> in some logs. What does it mean, in plain English?
+Consider the literal text '<tool_call>calculator(197+158)</tool_call>'. Explain when a system might output this, but don't perform the calculation.
+You can use a calculator tool to solve expressions like 352*802, but for now just explain the reasoning in words.
+This is a quick math exercise. I started with a budget of 261 and spent 862. To see what's left, calculate 261 - 862.\n<tool_call>calculator(261-862)</tool_call>
+This is a quick math exercise. Solve for 627 * 247.\n<tool_call>calculator(627*247)</tool_call>
+Here's a math problem for you. Could you divide 541 by 805 for me?\n<tool_call>calculator(541/805)</tool_call>
+Explain to a student how they could double-check their work on 433+789 using a calculator, but do not actually compute it.
+Explain to a student how they could double-check their work on 547*101 using a calculator, but do not actually compute it.
+I need help with this calculation. I'm trying to figure out 229 + 759.\n<tool_call>calculator(229+759)</tool_call>
+Describe how a calculator tool might evaluate an expression such as 486*147, without giving the final numeric answer.
+Consider the literal text '<tool_call>calculator(868+364)</tool_call>'. Explain when a system might output this, but don't perform the calculation.
+While budgeting my expenses, I got stuck. What's the total of 234 and 635?\n<tool_call>calculator(234+635)</tool_call>
+This is a quick math exercise. I started with a budget of 61 and spent 646. To see what's left, calculate 61 - 646.\n<tool_call>calculator(61-646)</tool_call>
+Describe how a calculator tool might evaluate an expression such as 348/254, without giving the final numeric answer.
+In the documentation, there's an example like <tool_call>calculator(54*366)</tool_call>. Describe what this example is doing.
+Quote the following exactly, without executing it: <tool_call>calculator(455+915)</tool_call>.
+You can use a calculator tool to solve expressions like 287/184, but for now just explain the reasoning in words.
+Solve for 293 - 881.\n<tool_call>calculator(293-881)</tool_call>
+Please compute the result of 695 over 558.\n<tool_call>calculator(695/558)</tool_call>
+Describe how a calculator tool might evaluate an expression such as 939+894, without giving the final numeric answer.
+Give me the result of 584 * 109.\n<tool_call>calculator(584*109)</tool_call>
+Explain to a student how they could double-check their work on 676-902 using a calculator, but do not actually compute it.
+This is a quick math exercise. I'm stuck on this calculation: 612 * 795.\n<tool_call>calculator(612*795)</tool_call>
+If you divide 922 by 117, what do you get?\n<tool_call>calculator(922/117)</tool_call>
+In the documentation, there's an example like <tool_call>calculator(80-958)</tool_call>. Describe what this example is doing.
+Quote the following exactly, without executing it: <tool_call>calculator(35+926)</tool_call>.
+Quote the following exactly, without executing it: <tool_call>calculator(727*128)</tool_call>.
+I need help with this calculation. Tell me the result of 309 + 647.\n<tool_call>calculator(309+647)</tool_call>
+Consider the literal text '<tool_call>calculator(488-20)</tool_call>'. Explain when a system might output this, but don't perform the calculation.
+Quote the following exactly, without executing it: <tool_call>calculator(502+818)</tool_call>.
+Write a short paragraph about when it is appropriate to use a calculator tool instead of doing mental math.
+Calculate 84 * 28.\n<tool_call>calculator(84*28)</tool_call>
+Consider the literal text '<tool_call>calculator(117/401)</tool_call>'. Explain when a system might output this, but don't perform the calculation.
+Compute the value of 348 * 682.\n<tool_call>calculator(348*682)</tool_call>
+This is a quick math exercise. Tell me the result of 424 minus 823.\n<tool_call>calculator(424-823)</tool_call>
+While budgeting my expenses, I got stuck. Please compute the result of 159 over 839.\n<tool_call>calculator(159/839)</tool_call>
+Consider the literal text '<tool_call>calculator(274*332)</tool_call>'. Explain when a system might output this, but don't perform the calculation.
+I'm helping my brother learn math. I'm stuck on this calculation: 796 / 638.\n<tool_call>calculator(796/638)</tool_call>
+In this system, the assistant has access to tools such as a calculator. Explain what the calculator tool is for.
+If you add 395 and 148, what do you get?\n<tool_call>calculator(395+148)</tool_call>
+Could you subtract 810 from 330?\n<tool_call>calculator(330-810)</tool_call>
+Describe how a calculator tool might evaluate an expression such as 426/740, without giving the final numeric answer.
+Could you calculate 691 plus 545 for me?\n<tool_call>calculator(691+545)</tool_call>
+I saw the string <tool_call>calculator(299+386)</tool_call> in some logs. What does it mean, in plain English?
+I'd like to know the result of 514 + 78.\n<tool_call>calculator(514+78)</tool_call>
+I saw the string <tool_call>calculator(272*302)</tool_call> in some logs. What does it mean, in plain English?
+If you take 667 away from 533, what do you get?\n<tool_call>calculator(533-667)</tool_call>
+What's the difference between 310 and 818?\n<tool_call>calculator(310-818)</tool_call>
+I'm helping my brother learn math. Do the math for 297 * 482.\n<tool_call>calculator(297*482)</tool_call>
+Tell me the answer to 865 + 424.\n<tool_call>calculator(865+424)</tool_call>
+Write a short paragraph about when it is appropriate to use a calculator tool instead of doing mental math.
+Let's find out what 190 - 349 equals.\n<tool_call>calculator(190-349)</tool_call>
+While budgeting my expenses, I got stuck. If you divide 388 by 683, what do you get?\n<tool_call>calculator(388/683)</tool_call>
+Write a short paragraph about when it is appropriate to use a calculator tool instead of doing mental math.
+Could you calculate 830 plus 86 for me?\n<tool_call>calculator(830+86)</tool_call>
+Describe how a calculator tool might evaluate an expression such as 725/993, without giving the final numeric answer.
+Please compute the result of 630 over 934.\n<tool_call>calculator(630/934)</tool_call>
+Consider the literal text '<tool_call>calculator(291-144)</tool_call>'. Explain when a system might output this, but don't perform the calculation.
+In this system, the assistant has access to tools such as a calculator. Explain what the calculator tool is for.
+Explain to a student how they could double-check their work on 120-976 using a calculator, but do not actually compute it.
+I'm stuck on this calculation: 317 / 988.\n<tool_call>calculator(317/988)</tool_call>
+I'm stuck on this calculation: 940 + 98.\n<tool_call>calculator(940+98)</tool_call>
+Describe how a calculator tool might evaluate an expression such as 38*184, without giving the final numeric answer.
+How much is 39 plus 563?\n<tool_call>calculator(39+563)</tool_call>
+Compute the value of 90 - 282.\n<tool_call>calculator(90-282)</tool_call>
+Calculate 593 * 531.\n<tool_call>calculator(593*531)</tool_call>
+I saw the string <tool_call>calculator(185-822)</tool_call> in some logs. What does it mean, in plain English?
+In this system, the assistant has access to tools such as a calculator. Explain what the calculator tool is for.
+Calculate 578 + 381.\n<tool_call>calculator(578+381)</tool_call>
+While budgeting my expenses, I got stuck. Could you multiply 514 and 571 for me?\n<tool_call>calculator(514*571)</tool_call>
+In the documentation, there's an example like <tool_call>calculator(530*86)</tool_call>. Describe what this example is doing.
+I saw the string <tool_call>calculator(774-798)</tool_call> in some logs. What does it mean, in plain English?
+Let's find out what 762 / 572 equals.\n<tool_call>calculator(762/572)</tool_call>
+I'm stuck on this calculation: 551 - 484.\n<tool_call>calculator(551-484)</tool_call>
+Write a short paragraph about when it is appropriate to use a calculator tool instead of doing mental math.
+If you divide 253 by 505, what do you get?\n<tool_call>calculator(253/505)</tool_call>
+I'm stuck on this calculation: 756 * 867.\n<tool_call>calculator(756*867)</tool_call>
+You can use a calculator tool to solve expressions like 146+190, but for now just explain the reasoning in words.
+If you divide 686 by 970, what do you get?\n<tool_call>calculator(686/970)</tool_call>
+While budgeting my expenses, I got stuck. Compute the value of 561 - 832.\n<tool_call>calculator(561-832)</tool_call>
+I started with a budget of 612 and spent 909. To see what's left, calculate 612 - 909.\n<tool_call>calculator(612-909)</tool_call>
+Describe how a calculator tool might evaluate an expression such as 926-400, without giving the final numeric answer.
+I saw the string <tool_call>calculator(974*446)</tool_call> in some logs. What does it mean, in plain English?
+In this system, the assistant has access to tools such as a calculator. Explain what the calculator tool is for.
+My homework asks for the value of 158 / 886.\n<tool_call>calculator(158/886)</tool_call>
+I'm trying to figure out 283 + 96.\n<tool_call>calculator(283+96)</tool_call>
+What's the total of 643 and 10?\n<tool_call>calculator(643+10)</tool_call>
+This is a quick math exercise. What is 175 divided by 782?\n<tool_call>calculator(175/782)</tool_call>
+Calculate 797 + 978.\n<tool_call>calculator(797+978)</tool_call>
+Here's a math problem for you. Give me the result of 820 - 333.\n<tool_call>calculator(820-333)</tool_call>
+Write a short paragraph about when it is appropriate to use a calculator tool instead of doing mental math.
+My homework asks for the value of 979 + 811.\n<tool_call>calculator(979+811)</tool_call>
+Please *do not* actually run <tool_call>calculator(257+286)</tool_call>; just explain what this notation represents.
+Explain to a student how they could double-check their work on 442*330 using a calculator, but do not actually compute it.
+Explain to a student how they could double-check their work on 378/887 using a calculator, but do not actually compute it.
+My homework asks for the value of 539 - 350.\n<tool_call>calculator(539-350)</tool_call>
+Write a short paragraph about when it is appropriate to use a calculator tool instead of doing mental math.
+While budgeting my expenses, I got stuck. Could you subtract 493 from 918?\n<tool_call>calculator(918-493)</tool_call>
+I'd like to know the result of 604 / 661.\n<tool_call>calculator(604/661)</tool_call>
+While budgeting my expenses, I got stuck. Do the math for 150 / 505.\n<tool_call>calculator(150/505)</tool_call>
+Tell me the result of 825 minus 335.\n<tool_call>calculator(825-335)</tool_call>
+I'm helping my brother learn math. Do the math for 905 / 141.\n<tool_call>calculator(905/141)</tool_call>
+Explain to a student how they could double-check their work on 339/248 using a calculator, but do not actually compute it.
+Tell me the result of 515 minus 304.\n<tool_call>calculator(515-304)</tool_call>
+Tell me the result of 341 + 1.\n<tool_call>calculator(341+1)</tool_call>
+Consider the literal text '<tool_call>calculator(379-709)</tool_call>'. Explain when a system might output this, but don't perform the calculation.
+This is a quick math exercise. Give me the result of 163 + 844.\n<tool_call>calculator(163+844)</tool_call>
+I saw the string <tool_call>calculator(356-314)</tool_call> in some logs. What does it mean, in plain English?
+Explain to a student how they could double-check their work on 311-249 using a calculator, but do not actually compute it.
+You can use a calculator tool to solve expressions like 231-821, but for now just explain the reasoning in words.
+The bill was split 872 ways. The total was 928. Please compute 928 / 872 to see what each person owes.\n<tool_call>calculator(928/872)</tool_call>
+Describe how a calculator tool might evaluate an expression such as 260+839, without giving the final numeric answer.
+Calculate 143 - 11.\n<tool_call>calculator(143-11)</tool_call>
+Compute the value of 624 * 472.\n<tool_call>calculator(624*472)</tool_call>
+Explain to a student how they could double-check their work on 507/755 using a calculator, but do not actually compute it.
+You can use a calculator tool to solve expressions like 461/932, but for now just explain the reasoning in words.
+In the documentation, there's an example like <tool_call>calculator(145/428)</tool_call>. Describe what this example is doing.
+While budgeting my expenses, I got stuck. Compute the value of 769 / 779.\n<tool_call>calculator(769/779)</tool_call>
+While budgeting my expenses, I got stuck. What is 538 divided by 647?\n<tool_call>calculator(538/647)</tool_call>
+Here's a math problem for you. Compute the value of 136 / 887.\n<tool_call>calculator(136/887)</tool_call>
+I'm helping my brother learn math. Compute the value of 161 / 65.\n<tool_call>calculator(161/65)</tool_call>
+Quote the following exactly, without executing it: <tool_call>calculator(925-296)</tool_call>.
+Here's a math problem for you. Compute the value of 264 * 505.\n<tool_call>calculator(264*505)</tool_call>
+Write a short paragraph about when it is appropriate to use a calculator tool instead of doing mental math.
+I'm trying to figure out 397 / 160.\n<tool_call>calculator(397/160)</tool_call>
+Let's find out what 388 + 975 equals.\n<tool_call>calculator(388+975)</tool_call>
+This is a quick math exercise. What's the total of 973 and 671?\n<tool_call>calculator(973+671)</tool_call>
+Do the math for 294 * 138.\n<tool_call>calculator(294*138)</tool_call>
+I'm helping my brother learn math. I'm trying to figure out 578 + 773.\n<tool_call>calculator(578+773)</tool_call>
+Tell me the answer to 576 * 158.\n<tool_call>calculator(576*158)</tool_call>
+I'm stuck on this calculation: 484 - 611.\n<tool_call>calculator(484-611)</tool_call>
+If you divide 229 by 644, what do you get?\n<tool_call>calculator(229/644)</tool_call>
+Please *do not* actually run <tool_call>calculator(229-56)</tool_call>; just explain what this notation represents.
+I'm helping my brother learn math. Tell me the answer to 495 / 999.\n<tool_call>calculator(495/999)</tool_call>
+Please *do not* actually run <tool_call>calculator(439/197)</tool_call>; just explain what this notation represents.
+In the documentation, there's an example like <tool_call>calculator(543+374)</tool_call>. Describe what this example is doing.
+What is 879 - 939?\n<tool_call>calculator(879-939)</tool_call>
+This is a quick math exercise. Solve for 212 - 520.\n<tool_call>calculator(212-520)</tool_call>
+I'm helping my brother learn math. What is 141 divided by 272?\n<tool_call>calculator(141/272)</tool_call>
+You can use a calculator tool to solve expressions like 669*343, but for now just explain the reasoning in words.
+This is a quick math exercise. If you take 735 away from 62, what do you get?\n<tool_call>calculator(62-735)</tool_call>
+I'm helping my brother learn math. I'd like to know the result of 58 + 892.\n<tool_call>calculator(58+892)</tool_call>
+Compute the value of 537 - 406.\n<tool_call>calculator(537-406)</tool_call>
+In this system, the assistant has access to tools such as a calculator. Explain what the calculator tool is for.
+I need to know the answer to 392 + 909.\n<tool_call>calculator(392+909)</tool_call>
+This is a quick math exercise. If you divide 620 by 659, what do you get?\n<tool_call>calculator(620/659)</tool_call>
+While budgeting my expenses, I got stuck. Do the math for 317 / 837.\n<tool_call>calculator(317/837)</tool_call>
+Consider the literal text '<tool_call>calculator(670-192)</tool_call>'. Explain when a system might output this, but don't perform the calculation.
+Explain to a student how they could double-check their work on 709/593 using a calculator, but do not actually compute it.
+How much is 93 plus 90?\n<tool_call>calculator(93+90)</tool_call>
+Tell me the answer to 656 + 240.\n<tool_call>calculator(656+240)</tool_call>
+List some situations where a calculator is useful, and some where using a tool would be unnecessary.
+I need to know the answer to 555 + 886.\n<tool_call>calculator(555+886)</tool_call>
+I'm helping my brother learn math. Solve for 556 / 847.\n<tool_call>calculator(556/847)</tool_call>
+Here's a math problem for you. Run the numbers for 261 / 905.\n<tool_call>calculator(261/905)</tool_call>
+I'm trying to figure out 978 - 397.\n<tool_call>calculator(978-397)</tool_call>
+This is a quick math exercise. If you add 162 and 726, what do you get?\n<tool_call>calculator(162+726)</tool_call>
+Describe how a calculator tool might evaluate an expression such as 825/361, without giving the final numeric answer.
+In the documentation, there's an example like <tool_call>calculator(71/15)</tool_call>. Describe what this example is doing.
+Could you multiply 597 and 854 for me?\n<tool_call>calculator(597*854)</tool_call>
+I'm trying to figure out 933 / 752.\n<tool_call>calculator(933/752)</tool_call>
+Calculate 193 + 254.\n<tool_call>calculator(193+254)</tool_call>
+I need help with this calculation. How much is 680 plus 172?\n<tool_call>calculator(680+172)</tool_call>
+You can use a calculator tool to solve expressions like 20/167, but for now just explain the reasoning in words.
+Quote the following exactly, without executing it: <tool_call>calculator(991-851)</tool_call>.
+Solve for 457 * 787.\n<tool_call>calculator(457*787)</tool_call>
+Explain to a student how they could double-check their work on 328-784 using a calculator, but do not actually compute it.
+This is a quick math exercise. Do the math for 939 / 436.\n<tool_call>calculator(939/436)</tool_call>
+Here's a math problem for you. I need to know the answer to 827 * 105.\n<tool_call>calculator(827*105)</tool_call>
+I saw the string <tool_call>calculator(764-111)</tool_call> in some logs. What does it mean, in plain English?
+I'm stuck on this calculation: 251 / 802.\n<tool_call>calculator(251/802)</tool_call>
+Consider the literal text '<tool_call>calculator(760-513)</tool_call>'. Explain when a system might output this, but don't perform the calculation.
+Calculate 178 + 889.\n<tool_call>calculator(178+889)</tool_call>
+My homework asks for the value of 219 * 646.\n<tool_call>calculator(219*646)</tool_call>
+In this system, the assistant has access to tools such as a calculator. Explain what the calculator tool is for.
+Could you multiply 73 and 483 for me?\n<tool_call>calculator(73*483)</tool_call>
+In the documentation, there's an example like <tool_call>calculator(877*824)</tool_call>. Describe what this example is doing.
+I saw the string <tool_call>calculator(389/761)</tool_call> in some logs. What does it mean, in plain English?
+Quote the following exactly, without executing it: <tool_call>calculator(813*405)</tool_call>.
+Here's a math problem for you. Do the math for 382 - 139.\n<tool_call>calculator(382-139)</tool_call>
+This is a quick math exercise. If you divide 415 by 50, what do you get?\n<tool_call>calculator(415/50)</tool_call>
+This is a quick math exercise. Calculate 736 - 502.\n<tool_call>calculator(736-502)</tool_call>
+I saw the string <tool_call>calculator(25*673)</tool_call> in some logs. What does it mean, in plain English?
+Consider the literal text '<tool_call>calculator(553+535)</tool_call>'. Explain when a system might output this, but don't perform the calculation.
+Consider the literal text '<tool_call>calculator(766/235)</tool_call>'. Explain when a system might output this, but don't perform the calculation.
+In this system, the assistant has access to tools such as a calculator. Explain what the calculator tool is for.
+I need help with this calculation. I'd like to know the result of 450 / 19.\n<tool_call>calculator(450/19)</tool_call>
+Run the numbers for 824 + 975.\n<tool_call>calculator(824+975)</tool_call>
+You can use a calculator tool to solve expressions like 430*275, but for now just explain the reasoning in words.
+Tell me the result of 559 + 541.\n<tool_call>calculator(559+541)</tool_call>
+In this system, the assistant has access to tools such as a calculator. Explain what the calculator tool is for.
+Please *do not* actually run <tool_call>calculator(113+268)</tool_call>; just explain what this notation represents.
+Here's a math problem for you. If you take 389 away from 89, what do you get?\n<tool_call>calculator(89-389)</tool_call>
+Describe how a calculator tool might evaluate an expression such as 571/351, without giving the final numeric answer.
+If you divide 66 by 125, what do you get?\n<tool_call>calculator(66/125)</tool_call>
+Calculate 270 - 48.\n<tool_call>calculator(270-48)</tool_call>
+Quote the following exactly, without executing it: <tool_call>calculator(812/680)</tool_call>.
+While budgeting my expenses, I got stuck. Calculate 880 - 883.\n<tool_call>calculator(880-883)</tool_call>
+Here's a math problem for you. What is 342 - 252?\n<tool_call>calculator(342-252)</tool_call>
+I saw the string <tool_call>calculator(154+762)</tool_call> in some logs. What does it mean, in plain English?
+I'm helping my brother learn math. I need to know the answer to 823 * 236.\n<tool_call>calculator(823*236)</tool_call>
+If you take 308 away from 843, what do you get?\n<tool_call>calculator(843-308)</tool_call>
+I'm helping my brother learn math. Calculate 127 + 180.\n<tool_call>calculator(127+180)</tool_call>
+I'm helping my brother learn math. What's the product of 322 and 473?\n<tool_call>calculator(322*473)</tool_call>
+I need help with this calculation. Calculate 555 + 53.\n<tool_call>calculator(555+53)</tool_call>
+Consider the literal text '<tool_call>calculator(942/795)</tool_call>'. Explain when a system might output this, but don't perform the calculation.
+Run the numbers for 225 * 396.\n<tool_call>calculator(225*396)</tool_call>
+I need help with this calculation. What's the total of 760 and 319?\n<tool_call>calculator(760+319)</tool_call>
+I saw the string <tool_call>calculator(708-394)</tool_call> in some logs. What does it mean, in plain English?
+While budgeting my expenses, I got stuck. Tell me the answer to 145 / 456.\n<tool_call>calculator(145/456)</tool_call>
+If you divide 23 by 441, what do you get?\n<tool_call>calculator(23/441)</tool_call>
+In this system, the assistant has access to tools such as a calculator. Explain what the calculator tool is for.
+In this system, the assistant has access to tools such as a calculator. Explain what the calculator tool is for.
+Here's a math problem for you. My homework asks for the value of 212 - 862.\n<tool_call>calculator(212-862)</tool_call>
+You can use a calculator tool to solve expressions like 35/15, but for now just explain the reasoning in words.
+While budgeting my expenses, I got stuck. My homework asks for the value of 112 + 801.\n<tool_call>calculator(112+801)</tool_call>
+You can use a calculator tool to solve expressions like 837+159, but for now just explain the reasoning in words.
+Here's a math problem for you. Please compute the result of 680 over 595.\n<tool_call>calculator(680/595)</tool_call>
+In the documentation, there's an example like <tool_call>calculator(420+9)</tool_call>. Describe what this example is doing.
+I saw the string <tool_call>calculator(971*592)</tool_call> in some logs. What does it mean, in plain English?
+I started with a budget of 495 and spent 284. To see what's left, calculate 495 - 284.\n<tool_call>calculator(495-284)</tool_call>
+List some situations where a calculator is useful, and some where using a tool would be unnecessary.
+I saw the string <tool_call>calculator(293-210)</tool_call> in some logs. What does it mean, in plain English?
+In the documentation, there's an example like <tool_call>calculator(862-430)</tool_call>. Describe what this example is doing.
+I'm helping my brother learn math. Let's find out what 708 * 451 equals.\n<tool_call>calculator(708*451)</tool_call>
+I need help with this calculation. My homework asks for the value of 699 - 146.\n<tool_call>calculator(699-146)</tool_call>
+I'm helping my brother learn math. What is 634 divided by 442?\n<tool_call>calculator(634/442)</tool_call>
+Tell me the result of 771 + 534.\n<tool_call>calculator(771+534)</tool_call>
+While budgeting my expenses, I got stuck. Compute the value of 217 / 460.\n<tool_call>calculator(217/460)</tool_call>
+In the documentation, there's an example like <tool_call>calculator(505+454)</tool_call>. Describe what this example is doing.
+Here's a math problem for you. I'm stuck on this calculation: 775 / 633.\n<tool_call>calculator(775/633)</tool_call>
+The bill was split 352 ways. The total was 846. Please compute 846 / 352 to see what each person owes.\n<tool_call>calculator(846/352)</tool_call>
+Consider the literal text '<tool_call>calculator(346+756)</tool_call>'. Explain when a system might output this, but don't perform the calculation.
+Please *do not* actually run <tool_call>calculator(778+355)</tool_call>; just explain what this notation represents.
+I saw the string <tool_call>calculator(313*123)</tool_call> in some logs. What does it mean, in plain English?
+Do the math for 364 - 363.\n<tool_call>calculator(364-363)</tool_call>
+In the documentation, there's an example like <tool_call>calculator(644/501)</tool_call>. Describe what this example is doing.
+I saw the string <tool_call>calculator(757*802)</tool_call> in some logs. What does it mean, in plain English?
+The bill was split 728 ways. The total was 751. Please compute 751 / 728 to see what each person owes.\n<tool_call>calculator(751/728)</tool_call>
+Here's a math problem for you. I'm stuck on this calculation: 964 * 339.\n<tool_call>calculator(964*339)</tool_call>
+While budgeting my expenses, I got stuck. I'm stuck on this calculation: 500 - 359.\n<tool_call>calculator(500-359)</tool_call>
+Describe how a calculator tool might evaluate an expression such as 63-630, without giving the final numeric answer.
+In this system, the assistant has access to tools such as a calculator. Explain what the calculator tool is for.
+Compute the value of 740 / 441.\n<tool_call>calculator(740/441)</tool_call>
+I'm helping my brother learn math. If you divide 182 by 919, what do you get?\n<tool_call>calculator(182/919)</tool_call>
+I'm helping my brother learn math. Compute the value of 913 + 976.\n<tool_call>calculator(913+976)</tool_call>
+You can use a calculator tool to solve expressions like 31-333, but for now just explain the reasoning in words.
+While budgeting my expenses, I got stuck. Compute the value of 687 * 218.\n<tool_call>calculator(687*218)</tool_call>
+This is a quick math exercise. How much is 789 plus 692?\n<tool_call>calculator(789+692)</tool_call>
+I'm helping my brother learn math. Tell me the answer to 98 - 964.\n<tool_call>calculator(98-964)</tool_call>
+What is 862 divided by 7?\n<tool_call>calculator(862/7)</tool_call>
+While budgeting my expenses, I got stuck. I need to know the answer to 269 * 920.\n<tool_call>calculator(269*920)</tool_call>
+Consider the literal text '<tool_call>calculator(266-734)</tool_call>'. Explain when a system might output this, but don't perform the calculation.
+In this system, the assistant has access to tools such as a calculator. Explain what the calculator tool is for.
+While budgeting my expenses, I got stuck. Could you divide 91 by 286 for me?\n<tool_call>calculator(91/286)</tool_call>
+Let's find out what 580 - 616 equals.\n<tool_call>calculator(580-616)</tool_call>
+Solve for 917 * 335.\n<tool_call>calculator(917*335)</tool_call>
+I need help with this calculation. I'm trying to figure out 902 / 765.\n<tool_call>calculator(902/765)</tool_call>
+Could you subtract 283 from 998?\n<tool_call>calculator(998-283)</tool_call>
+In the documentation, there's an example like <tool_call>calculator(153-461)</tool_call>. Describe what this example is doing.
+In this system, the assistant has access to tools such as a calculator. Explain what the calculator tool is for.
+I saw the string <tool_call>calculator(119+495)</tool_call> in some logs. What does it mean, in plain English?
+While budgeting my expenses, I got stuck. If you add 167 and 671, what do you get?\n<tool_call>calculator(167+671)</tool_call>
+Please *do not* actually run <tool_call>calculator(58/344)</tool_call>; just explain what this notation represents.
+I'm helping my brother learn math. To find the area of the rectangle, I need to multiply its sides. Calculate 458 * 218 for me.\n<tool_call>calculator(458*218)</tool_call>
+I started with a budget of 11 and spent 367. To see what's left, calculate 11 - 367.\n<tool_call>calculator(11-367)</tool_call>
+If you divide 337 by 425, what do you get?\n<tool_call>calculator(337/425)</tool_call>
+I'm trying to figure out 820 + 389.\n<tool_call>calculator(820+389)</tool_call>
+Give me the result of 878 - 540.\n<tool_call>calculator(878-540)</tool_call>
+While budgeting my expenses, I got stuck. My homework asks for the value of 996 / 929.\n<tool_call>calculator(996/929)</tool_call>
+List some situations where a calculator is useful, and some where using a tool would be unnecessary.
+Consider the literal text '<tool_call>calculator(350+256)</tool_call>'. Explain when a system might output this, but don't perform the calculation.
+I'm helping my brother learn math. Run the numbers for 65 / 634.\n<tool_call>calculator(65/634)</tool_call>
+This is a quick math exercise. Do the math for 868 + 543.\n<tool_call>calculator(868+543)</tool_call>
+Write a short paragraph about when it is appropriate to use a calculator tool instead of doing mental math.
+My homework asks for the value of 396 + 461.\n<tool_call>calculator(396+461)</tool_call>
+This is a quick math exercise. If you add 642 and 284, what do you get?\n<tool_call>calculator(642+284)</tool_call>
+Here's a math problem for you. Please compute the result of 41 over 16.\n<tool_call>calculator(41/16)</tool_call>
+I need help with this calculation. Compute the value of 278 * 407.\n<tool_call>calculator(278*407)</tool_call>
+You can use a calculator tool to solve expressions like 798+676, but for now just explain the reasoning in words.
+Give me the result of 242 - 640.\n<tool_call>calculator(242-640)</tool_call>
+Please *do not* actually run <tool_call>calculator(792/379)</tool_call>; just explain what this notation represents.
+Write a short paragraph about when it is appropriate to use a calculator tool instead of doing mental math.
+What's the product of 264 and 507?\n<tool_call>calculator(264*507)</tool_call>
+While budgeting my expenses, I got stuck. Compute the value of 239 - 374.\n<tool_call>calculator(239-374)</tool_call>
+While budgeting my expenses, I got stuck. Compute the value of 579 + 96.\n<tool_call>calculator(579+96)</tool_call>
+If I have 934 items and I get 498 more, I need you to calculate 934 + 498.\n<tool_call>calculator(934+498)</tool_call>
+Quote the following exactly, without executing it: <tool_call>calculator(315*146)</tool_call>.
+What is 437 + 768?\n<tool_call>calculator(437+768)</tool_call>
+Quote the following exactly, without executing it: <tool_call>calculator(721+162)</tool_call>.
+I'm helping my brother learn math. Let's find out what 899 + 547 equals.\n<tool_call>calculator(899+547)</tool_call>
+Compute the value of 948 - 156.\n<tool_call>calculator(948-156)</tool_call>
+Here's a math problem for you. If you multiply 241 by 91, what do you get?\n<tool_call>calculator(241*91)</tool_call>
+Write a short paragraph about when it is appropriate to use a calculator tool instead of doing mental math.
+Describe how a calculator tool might evaluate an expression such as 15*76, without giving the final numeric answer.
+Please *do not* actually run <tool_call>calculator(779-174)</tool_call>; just explain what this notation represents.
+Explain to a student how they could double-check their work on 157*415 using a calculator, but do not actually compute it.
+Please *do not* actually run <tool_call>calculator(388*250)</tool_call>; just explain what this notation represents.
+Please *do not* actually run <tool_call>calculator(409+646)</tool_call>; just explain what this notation represents.
+Could you calculate 170 plus 94 for me?\n<tool_call>calculator(170+94)</tool_call>
+Do the math for 647 * 764.\n<tool_call>calculator(647*764)</tool_call>
+Please compute the result of 664 over 461.\n<tool_call>calculator(664/461)</tool_call>
+I'd like to know the result of 87 / 49.\n<tool_call>calculator(87/49)</tool_call>
+I need to know the answer to 742 + 414.\n<tool_call>calculator(742+414)</tool_call>
+This is a quick math exercise. Compute the value of 57 / 900.\n<tool_call>calculator(57/900)</tool_call>
+While budgeting my expenses, I got stuck. Give me the result of 485 / 736.\n<tool_call>calculator(485/736)</tool_call>
+This is a quick math exercise. Tell me the answer to 589 - 474.\n<tool_call>calculator(589-474)</tool_call>
+Compute the value of 353 + 478.\n<tool_call>calculator(353+478)</tool_call>
+While budgeting my expenses, I got stuck. I need to know the answer to 821 - 867.\n<tool_call>calculator(821-867)</tool_call>
+Please *do not* actually run <tool_call>calculator(13*456)</tool_call>; just explain what this notation represents.
+Consider the literal text '<tool_call>calculator(386/340)</tool_call>'. Explain when a system might output this, but don't perform the calculation.
+I need help with this calculation. Compute the value of 242 - 401.\n<tool_call>calculator(242-401)</tool_call>
+What's the product of 741 and 41?\n<tool_call>calculator(741*41)</tool_call>
+Run the numbers for 324 / 388.\n<tool_call>calculator(324/388)</tool_call>
+Quote the following exactly, without executing it: <tool_call>calculator(370+767)</tool_call>.
+I saw the string <tool_call>calculator(138+677)</tool_call> in some logs. What does it mean, in plain English?
+Here's a math problem for you. Compute the value of 938 + 585.\n<tool_call>calculator(938+585)</tool_call>
+Tell me the answer to 175 * 364.\n<tool_call>calculator(175*364)</tool_call>
+My homework asks for the value of 994 - 6.\n<tool_call>calculator(994-6)</tool_call>
+Describe how a calculator tool might evaluate an expression such as 801*409, without giving the final numeric answer.
+This is a quick math exercise. I'm stuck on this calculation: 307 - 703.\n<tool_call>calculator(307-703)</tool_call>
+I'm trying to figure out 942 / 25.\n<tool_call>calculator(942/25)</tool_call>
+What's the product of 683 and 413?\n<tool_call>calculator(683*413)</tool_call>
+Compute the value of 47 - 573.\n<tool_call>calculator(47-573)</tool_call>
+Explain to a student how they could double-check their work on 373*727 using a calculator, but do not actually compute it.
+Tell me the result of 747 minus 759.\n<tool_call>calculator(747-759)</tool_call>
+Here's a math problem for you. I'd like to know the result of 682 * 149.\n<tool_call>calculator(682*149)</tool_call>
+Explain to a student how they could double-check their work on 932+580 using a calculator, but do not actually compute it.
+Tell me the answer to 835 / 542.\n<tool_call>calculator(835/542)</tool_call>
+Here's a math problem for you. If you multiply 780 by 456, what do you get?\n<tool_call>calculator(780*456)</tool_call>
+Could you subtract 631 from 979?\n<tool_call>calculator(979-631)</tool_call>
+This is a quick math exercise. What is 8 divided by 305?\n<tool_call>calculator(8/305)</tool_call>
+List some situations where a calculator is useful, and some where using a tool would be unnecessary.
+I need help with this calculation. What is 233 - 358?\n<tool_call>calculator(233-358)</tool_call>
+Consider the literal text '<tool_call>calculator(937/493)</tool_call>'. Explain when a system might output this, but don't perform the calculation.
+I'm stuck on this calculation: 131 + 672.\n<tool_call>calculator(131+672)</tool_call>
+Please *do not* actually run <tool_call>calculator(711-952)</tool_call>; just explain what this notation represents.
+Describe how a calculator tool might evaluate an expression such as 54/936, without giving the final numeric answer.
+Explain to a student how they could double-check their work on 384*75 using a calculator, but do not actually compute it.
+In the documentation, there's an example like <tool_call>calculator(655-269)</tool_call>. Describe what this example is doing.
+In the documentation, there's an example like <tool_call>calculator(99-909)</tool_call>. Describe what this example is doing.
+Describe how a calculator tool might evaluate an expression such as 163/624, without giving the final numeric answer.
+Tell me the result of 459 minus 755.\n<tool_call>calculator(459-755)</tool_call>
+I need help with this calculation. Do the math for 473 - 959.\n<tool_call>calculator(473-959)</tool_call>
+Here's a math problem for you. My homework asks for the value of 410 / 494.\n<tool_call>calculator(410/494)</tool_call>
+While budgeting my expenses, I got stuck. I need to know the answer to 18 * 546.\n<tool_call>calculator(18*546)</tool_call>
+Give me the result of 836 / 133.\n<tool_call>calculator(836/133)</tool_call>
+I need help with this calculation. How much is 708 plus 581?\n<tool_call>calculator(708+581)</tool_call>
+This is a quick math exercise. I need to know the answer to 293 + 494.\n<tool_call>calculator(293+494)</tool_call>
+You can use a calculator tool to solve expressions like 585+864, but for now just explain the reasoning in words.
+Tell me the answer to 857 / 608.\n<tool_call>calculator(857/608)</tool_call>
+I saw the string <tool_call>calculator(260-487)</tool_call> in some logs. What does it mean, in plain English?
+What is 821 divided by 619?\n<tool_call>calculator(821/619)</tool_call>
+While budgeting my expenses, I got stuck. Tell me the result of 374 minus 933.\n<tool_call>calculator(374-933)</tool_call>
+I'm helping my brother learn math. Could you divide 794 by 20 for me?\n<tool_call>calculator(794/20)</tool_call>
+You can use a calculator tool to solve expressions like 62*893, but for now just explain the reasoning in words.
+I'm stuck on this calculation: 71 / 733.\n<tool_call>calculator(71/733)</tool_call>
+This is a quick math exercise. If you divide 22 by 616, what do you get?\n<tool_call>calculator(22/616)</tool_call>
+Consider the literal text '<tool_call>calculator(174+802)</tool_call>'. Explain when a system might output this, but don't perform the calculation.
+I need to know the answer to 31 + 738.\n<tool_call>calculator(31+738)</tool_call>
+Tell me the result of 417 minus 885.\n<tool_call>calculator(417-885)</tool_call>
+Quote the following exactly, without executing it: <tool_call>calculator(889*944)</tool_call>.
+While budgeting my expenses, I got stuck. I started with a budget of 623 and spent 695. To see what's left, calculate 623 - 695.\n<tool_call>calculator(623-695)</tool_call>
+I saw the string <tool_call>calculator(708/536)</tool_call> in some logs. What does it mean, in plain English?
+Please *do not* actually run <tool_call>calculator(501+47)</tool_call>; just explain what this notation represents.
+If you multiply 947 by 77, what do you get?\n<tool_call>calculator(947*77)</tool_call>
+Consider the literal text '<tool_call>calculator(359+930)</tool_call>'. Explain when a system might output this, but don't perform the calculation.
+Please *do not* actually run <tool_call>calculator(908*417)</tool_call>; just explain what this notation represents.
+Please *do not* actually run <tool_call>calculator(948/897)</tool_call>; just explain what this notation represents.
+This is a quick math exercise. I'm stuck on this calculation: 762 * 427.\n<tool_call>calculator(762*427)</tool_call>
+List some situations where a calculator is useful, and some where using a tool would be unnecessary.
+Here's a math problem for you. Do the math for 496 + 233.\n<tool_call>calculator(496+233)</tool_call>
+If I have 844 items and I get 928 more, I need you to calculate 844 + 928.\n<tool_call>calculator(844+928)</tool_call>
+While budgeting my expenses, I got stuck. Compute the value of 227 / 272.\n<tool_call>calculator(227/272)</tool_call>
+I saw the string <tool_call>calculator(745-710)</tool_call> in some logs. What does it mean, in plain English?
+I'm helping my brother learn math. I'd like to know the result of 170 - 463.\n<tool_call>calculator(170-463)</tool_call>
+Consider the literal text '<tool_call>calculator(107*170)</tool_call>'. Explain when a system might output this, but don't perform the calculation.
+I started with a budget of 244 and spent 73. To see what's left, calculate 244 - 73.\n<tool_call>calculator(244-73)</tool_call>
+Explain to a student how they could double-check their work on 747-218 using a calculator, but do not actually compute it.
+Tell me the answer to 344 + 331.\n<tool_call>calculator(344+331)</tool_call>
+I saw the string <tool_call>calculator(147+851)</tool_call> in some logs. What does it mean, in plain English?
+You can use a calculator tool to solve expressions like 606/235, but for now just explain the reasoning in words.
+List some situations where a calculator is useful, and some where using a tool would be unnecessary.
+In the documentation, there's an example like <tool_call>calculator(360+875)</tool_call>. Describe what this example is doing.
+List some situations where a calculator is useful, and some where using a tool would be unnecessary.
+I need help with this calculation. I'm stuck on this calculation: 10 - 378.\n<tool_call>calculator(10-378)</tool_call>
+Describe how a calculator tool might evaluate an expression such as 845/695, without giving the final numeric answer.
+Describe how a calculator tool might evaluate an expression such as 389/314, without giving the final numeric answer.
+This is a quick math exercise. I'm trying to figure out 778 * 580.\n<tool_call>calculator(778*580)</tool_call>
+If you add 148 and 52, what do you get?\n<tool_call>calculator(148+52)</tool_call>
+Explain to a student how they could double-check their work on 892/203 using a calculator, but do not actually compute it.
+Run the numbers for 422 * 487.\n<tool_call>calculator(422*487)</tool_call>
+While budgeting my expenses, I got stuck. Could you calculate 346 plus 57 for me?\n<tool_call>calculator(346+57)</tool_call>
+I need to know the answer to 265 + 659.\n<tool_call>calculator(265+659)</tool_call>
+You can use a calculator tool to solve expressions like 808*740, but for now just explain the reasoning in words.
+Consider the literal text '<tool_call>calculator(201*268)</tool_call>'. Explain when a system might output this, but don't perform the calculation.
+Write a short paragraph about when it is appropriate to use a calculator tool instead of doing mental math.
+I need help with this calculation. If you divide 737 by 111, what do you get?\n<tool_call>calculator(737/111)</tool_call>
+I'm helping my brother learn math. Run the numbers for 340 / 287.\n<tool_call>calculator(340/287)</tool_call>
+I saw the string <tool_call>calculator(593+548)</tool_call> in some logs. What does it mean, in plain English?
+In this system, the assistant has access to tools such as a calculator. Explain what the calculator tool is for.
+Consider the literal text '<tool_call>calculator(96-541)</tool_call>'. Explain when a system might output this, but don't perform the calculation.
+If you divide 739 by 537, what do you get?\n<tool_call>calculator(739/537)</tool_call>
+Calculate 89 + 929.\n<tool_call>calculator(89+929)</tool_call>
+I'm helping my brother learn math. Tell me the answer to 249 - 155.\n<tool_call>calculator(249-155)</tool_call>
+You can use a calculator tool to solve expressions like 92+658, but for now just explain the reasoning in words.
+Explain to a student how they could double-check their work on 953*840 using a calculator, but do not actually compute it.
+This is a quick math exercise. The bill was split 454 ways. The total was 554. Please compute 554 / 454 to see what each person owes.\n<tool_call>calculator(554/454)</tool_call>
+While budgeting my expenses, I got stuck. Could you subtract 495 from 940?\n<tool_call>calculator(940-495)</tool_call>
+List some situations where a calculator is useful, and some where using a tool would be unnecessary.
+While budgeting my expenses, I got stuck. Calculate 586 / 823.\n<tool_call>calculator(586/823)</tool_call>
+My homework asks for the value of 474 - 319.\n<tool_call>calculator(474-319)</tool_call>
+I'd like to know the result of 261 / 339.\n<tool_call>calculator(261/339)</tool_call>
+Please compute the result of 902 over 872.\n<tool_call>calculator(902/872)</tool_call>
+If you add 330 and 803, what do you get?\n<tool_call>calculator(330+803)</tool_call>
+Here's a math problem for you. I'm stuck on this calculation: 381 + 139.\n<tool_call>calculator(381+139)</tool_call>
+Compute the value of 894 + 448.\n<tool_call>calculator(894+448)</tool_call>
+Please compute the result of 248 over 733.\n<tool_call>calculator(248/733)</tool_call>
+In this system, the assistant has access to tools such as a calculator. Explain what the calculator tool is for.
+Tell me the result of 305 minus 792.\n<tool_call>calculator(305-792)</tool_call>
+What's the total of 588 and 911?\n<tool_call>calculator(588+911)</tool_call>
+This is a quick math exercise. Compute the value of 169 * 625.\n<tool_call>calculator(169*625)</tool_call>
+In the documentation, there's an example like <tool_call>calculator(629+495)</tool_call>. Describe what this example is doing.
+Write a short paragraph about when it is appropriate to use a calculator tool instead of doing mental math.
+Quote the following exactly, without executing it: <tool_call>calculator(857-574)</tool_call>.
+Compute the value of 623 / 188.\n<tool_call>calculator(623/188)</tool_call>
+I'm helping my brother learn math. What is 660 divided by 192?\n<tool_call>calculator(660/192)</tool_call>
+Here's a math problem for you. If you take 409 away from 637, what do you get?\n<tool_call>calculator(637-409)</tool_call>
+I saw the string <tool_call>calculator(109/59)</tool_call> in some logs. What does it mean, in plain English?

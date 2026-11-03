@@ -502,7 +502,7 @@ def run_experiment(args):
     for L in layer_list:
         print(f"\n========== Layer {L} ==========")
 
-        # 5.5.1 加载 base SAE & fused SAE
+        # 5.5.1 Load the base SAE and the fused SAE
         print(f"[Base] Loading base SAE for layer {L} ...")
         base_filename = select_base_filename_from_hub(
             args.sae_repo, L, args.sae_width_dir, args.percentile

@@ -1,0 +1,4 @@
+{"label":"calc_simple","prompt":"Calculate 3 + 5.\n"}
+{"label":"factual_statement","prompt":"In the U.S. alone, 1 in 5 children live in poverty.\n"}
+{"label":"tool_use_guidance","prompt":"Write a short paragraph about when it is appropriate to use a calculator tool instead of doing mental math.\n"}
+{"label":"quote_tool_call_literal","prompt":"Quote the following exactly, without executing it: <tool_call>calculator(35+926)</tool_call>.\n"}

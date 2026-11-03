@@ -356,7 +356,7 @@ def run_experiment(args):
 
         base_layer_summary = summarize_layer_metrics(base_metrics[L])
 
-        # 4.3.2 Full: base + delta（DeltaTranscoder）
+        # 4.3.2 Full: base + delta (DeltaTranscoder)
         print(f"[Full] Loading finetuned DeltaTranscoder for layer {L} ...")
         delta_ckpt = find_delta_checkpoint(args.delta_root, L, args.d_new, args.percentile)
         delta_model = load_finetuned_delta_transcoder(
